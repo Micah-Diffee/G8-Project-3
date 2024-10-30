@@ -1,0 +1,74 @@
+/* General Container for the General Trends Page */
+.product-usage-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    background-color: #f4f4f4;
+    height: calc(100vh - 60px); 
+    overflow-y: auto;
+  }
+  
+  /* Title Styling */
+  .page-title {
+    position: absolute;
+    top: 80px; 
+    left: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  /* Table Styling */
+  .table-wrapper {
+    width: 70%; 
+    max-width: 600px;
+    background-color: white;
+    border-radius: 8px;
+    border: solid black;
+    overflow: hidden;
+    margin-top: 80px; 
+    margin-right: 20px;
+  }
+  
+  .product-usage-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .product-usage-table caption {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  
+  .product-usage-table th, .product-usage-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    border: 3px solid black;
+  }
+  
+  .product-usage-table thead {
+    background-color: grey;
+    border: 3px solid black;
+    color: white;
+  }
+
+  /* Generate button Styling */
+.generate-chart-button {
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  padding: 25px 50px;
+  font-size: 24px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.generate-chart-button:hover {
+  background-color: grey;
+}
+  

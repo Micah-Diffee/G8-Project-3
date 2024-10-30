@@ -1,0 +1,99 @@
+/* The css class will center the text and buttons the web page. */
+.kiosk_display {
+    text-align: center;
+}
+
+/* The css class will design the header on the page. */
+.page_header {
+    background-color: #282c34;
+    min-height: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    border: 3px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will create a row property for the two columns. */
+.row_property {
+    display: flex;
+    flex-direction: row;
+}
+
+/* The css class will design the left column. */
+.left_column {
+    float: left;
+    width: 30%;
+    background-color: lightcoral;
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will design the right column. */
+.right_column {
+    float: right;
+    width: 70%;
+    background-color: lightgray;
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will design the secondary left column for the current total. */
+.left_column_secondary {
+    float: left;
+    width: 50%;
+    background-color: rgb(230, 227, 227);
+    border: 3px solid black;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 38px;
+    padding-left: 20px;
+}
+
+/* The css class will design the secondary right column for the checkout button. */
+.right_column_secondary {
+    float: right;
+    width: 50%;
+    background-color: rgb(230, 227, 227);
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will set the popular page on the customer kiosk visible. */
+.popular_page_kiosk {
+    display: contents;
+}
+
+/* The css class will set the combos page on the customer kisok visible. */
+.combos_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the entrees page on the customer kisok visible. */
+.entrees_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the appetizers page on the customer kisok visible. */
+.appetizers_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the drinks page on the customer kisok visible. */
+.drinks_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the sides page on the customer kisok visible. */
+.sides_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the checkout page on the customer kisok visible. */
+.checkout_page_kiosk {
+    display: none;
+}

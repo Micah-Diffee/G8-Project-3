@@ -1,0 +1,16 @@
+/* The css class will center the text and buttons on the sides page. */
+.sides_page {
+    text-align: center;
+}
+
+/* The css class will format the title on the sides page. */
+.right_column_title {
+    font-size: 50px;
+    font-weight: bold;
+    border: 2px solid black;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    display: inline-block;
+}

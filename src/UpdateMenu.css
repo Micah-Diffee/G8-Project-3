@@ -1,0 +1,86 @@
+/* Update menu section styling */
+.update-menu-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 90%;
+    max-width: 90%;
+    max-height: 90%;
+    margin: 0 auto;
+}
+
+/* Title styling for the update menu section */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Content styling within the update menu section */
+.update-menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Table container styling for the menu table */
+.menu-table-container {
+    width: 100%;
+    max-width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Menu table styling */
+.menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+/* Cell styling for the menu table */
+.menu-table th, .menu-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header styling for the menu table */
+.menu-table th {
+    background-color: #f2f2f2;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Button container styling */
+.buttons {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Action button styling */
+.action-button {
+    padding: 10px 20px;
+    width: 500%;
+    background-color: #d3e4fd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hover effect for action buttons */
+.action-button:hover {
+    background-color: #b3cde0;
+}

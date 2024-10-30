@@ -1,0 +1,81 @@
+/* Employee information section styling */
+.employee-info-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Title styling for each section */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Content styling within the employee info section */
+.employee-info-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Table container styling */
+.table-container {
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Styling for the employee information table */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.employee-table th, .employee-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header styling for table columns */
+.employee-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Styling for button container */
+.buttons {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Styling for action buttons */
+.action-button {
+    padding: 10px 20px;
+    width: 500%;
+    background-color: #d3e4fd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hover effect for action buttons */
+.action-button:hover {
+    background-color: #b3cde0;
+}
