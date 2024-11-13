@@ -1,0 +1,155 @@
+/* Employee information section styling */
+.employee-info-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Highlight color for selected row */
+.selected-row {
+    background-color: #d3e4fd;
+}
+
+/* Title styling for each section */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Content styling within the employee info section */
+.employee-info-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Table container styling */
+.table-container {
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+/* Styling for the employee information table */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.employee-table thead {
+    top: 0;
+    border: 1px solid #ddd;
+}
+
+.employee-table th, .employee-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header styling for table columns */
+.employee-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Styling for button container */
+.buttons {
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Styling for action buttons */
+.action-button {
+    padding: 10px 20px;
+    width: 500%;
+    background-color: #d3e4fd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Hover effect for action buttons */
+.action-button:hover {
+    background-color: #b3cde0;
+}
+
+/* The popup form - hidden by default */
+.form-popup {
+    display: block;
+    position: fixed;
+    top: 0%;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Title styling for the form (centers the text) */
+.form-container h1 {
+    text-align: center;
+  }
+
+/* Form container styling */
+.form-container {
+    max-width: 400px;
+    background-color: white;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 8px;
+    position: relative;
+    top: 2%;
+}
+
+/* Full-width input fields */
+.form-container input[type="text"] {
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: 1px solid #ddd;
+    background: #f1f1f1;
+}
+
+/* Form button styling */
+.form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.form-container .btn:hover {
+    opacity: 1;
+}
+
+.form-container .cancel {
+    background-color: red;
+}
+
+/* Close button style */
+.form-container .cancel:hover {
+    opacity: 1;
+}

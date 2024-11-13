@@ -1,0 +1,96 @@
+/* general container styling */
+.general-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Title styling for the general trends section */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Section styling within the inventory container */
+.section {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Styling for section titles */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Table container styling */
+.table-container {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin-bottom: 20px; 
+}
+
+/* Inventory and reorder table styling */
+.dailySum-table, .peak-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+/* Cell styling for inventory and reorder tables */
+.dailySum-table th, .dailySum-table td, .peak-table th, .peak-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header styling for inventory and reorder tables */
+.dailySum-table th, .peak-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* General container for the statistics section */
+.stats-section {
+  margin-top: 20px;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  text-align: center;
+}
+
+/* Title for the statistics section */
+.stats-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* List container for the stats */
+.stats-list {
+  list-style-type: disc; 
+  padding: 0;
+  margin: 0;
+  display: inline-block; 
+  text-align: left;
+}
+
+/* Styling for each list item */
+.stats-list li {
+  margin: 5px 0;
+  line-height: 1.5;
+  font-size: 1em; 
+  color: #333; 
+  display: list-item; 
+  list-style-position: inside; 
+  text-align: left;
+}

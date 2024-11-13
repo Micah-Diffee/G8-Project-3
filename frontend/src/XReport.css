@@ -1,0 +1,59 @@
+/* Order history section styling */
+.xreport-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Title styling for the order history section */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Content styling within the order history section */
+.xreport-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Table container styling for the history table */
+.xreport-table-container {
+    width: 100%;
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+/* History table styling */
+.xreport-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+/* Cell styling for the history table */
+.xreport-table th, .xreport-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Header styling for the history table */
+.xreport-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/*Styling for payment method totals*/
+.totals-container {
+    text-align: center;
+}

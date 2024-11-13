@@ -1,0 +1,306 @@
+/* The css class will center the text and buttons the web page. */
+.kiosk_display {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the appetizers page. */
+.appetizers_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the checkout page. */
+.checkout_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the combos page. */
+.combos_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the drinks page. */
+.drinks_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the entrees page. */
+.entrees_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the popular page. */
+.popular_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the sides page. */
+.sides_page {
+    text-align: center;
+}
+
+/* The css class will center the text and buttons on the payment method page. */
+.payment_method_page {
+    text-align: center;
+    background-color: lightgray;
+}
+
+/* The css class will center the text and buttons on the customer information page. */
+.customer_information_page {
+    text-align: center;
+    background-color: lightgray;
+}
+
+/* The css class will center the text and buttons on the checkout summary page. */
+.checkout_summary_page {
+    text-align: center;
+    background-color: lightgray;
+}
+
+/* The css class will center the text and buttons on the confirmed order page. */
+.order_confirmed_page {
+    text-align: center;
+    background-color: lightgray;
+}
+
+/* The css class will format the in-text headings in the right column of the popular page. */
+.in_text_headings {
+    font-size: 40px;
+}
+
+/* The css class will design the header on the page. */
+.page_header {
+    background-color: #282c34;
+    min-height: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    border: 3px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will create a row property for the two columns. */
+.row_property {
+    display: flex;
+    flex-direction: row;
+}
+
+/* The css class will design the left column. */
+.left_column {
+    float: left;
+    width: 30%;
+    background-color: lightcoral;
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will design the right column. */
+.right_column {
+    float: right;
+    width: 70%;
+    background-color: lightgray;
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will format the title on the combos page. */
+.right_column_title {
+    font-size: 50px;
+    font-weight: bold;
+    border: 2px solid black;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    display: inline-block;
+}
+
+/* The css class will design the secondary left column for the current total. */
+.left_column_secondary {
+    float: left;
+    width: 50%;
+    background-color: rgb(230, 227, 227);
+    border: 3px solid black;
+    box-sizing: border-box;
+    text-align: left;
+    font-size: 38px;
+    padding-left: 20px;
+}
+
+/* The css class will design the secondary right column for the checkout button. */
+.right_column_secondary {
+    float: right;
+    width: 50%;
+    background-color: rgb(230, 227, 227);
+    border: 2px solid black;
+    box-sizing: border-box;
+}
+
+/* The css class will design the title for the payment method page. */
+.payment_method_title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.customer_information_title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* The css class will design the employee login button. */
+.employee_login_button_design {
+    width: 90%;
+    height: 100px;
+    padding: 10px;
+    font-size: 30px;
+    margin-top: 5%;
+    margin-left: 5%;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+/* The css class will design the side buttons. */
+.side_button_design {
+    width: 90%;
+    height: 100px;
+    padding: 10px;
+    font-size: 30px;
+    margin-top: 5%;
+    margin-left: 5%;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+/* The css class will design the menu item buttons. */
+.menu_item_button_design {
+    width: 300px;
+    height: 300px;
+    padding: 10px;
+    font-size: 25px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* The css class will design the checkout button. */
+.checkout_button_design {
+    width: 90%;
+    height: 80px;
+    padding: 10px;
+    font-size: 30px;
+    margin-left: 5%;
+    margin-top: 25px;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+/* The css class will design the payment method buttons. */
+.payment_method_button_design {
+    width: 48.5%;
+    height: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 7%;
+    padding-bottom: 7%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+    margin-bottom: 1%;
+    font-size: 200%;
+    cursor: pointer;
+}
+
+/* The css class will set the popular page on the customer kiosk visible. */
+.popular_page_kiosk {
+    display: contents;
+}
+
+/* The css class will set the combos page on the customer kisok visible. */
+.combos_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the entrees page on the customer kisok visible. */
+.entrees_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the appetizers page on the customer kisok visible. */
+.appetizers_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the drinks page on the customer kisok visible. */
+.drinks_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the sides page on the customer kisok visible. */
+.sides_page_kiosk {
+    display: none;
+}
+
+/* The css class will set the first entree combo page on the customer kiosk visible. */
+.first_entree_combo_kiosk {
+    display: none;
+}
+
+/* The css class will set the second entree combo page on the customer kiosk visible. */
+.second_entree_combo_kiosk {
+    display: none;
+}
+
+/* The css class will set the third entree combo page on the customer kiosk visible. */
+.third_entree_combo_kiosk {
+    display: none;
+}
+
+/* The css class will set the side combo page onthe customer kiosk visible. */
+.side_combo_kiosk {
+    display: none;
+}
+
+/* The css class will set the checkout page on the customer kisok visible. */
+.checkout_page_kiosk {
+    display: none;
+}
+
+/* The css class will display the checkout button. */
+.display_checkout_button {
+    display: contents;
+}
+
+/* The css class will display the proceed to payment method button. */
+.display_proceed_to_payment_method_button {
+    display: none;
+}
+
+/* The css class will display the payment method page. */
+.display_payment_method_page {
+    display: none;
+}
+
+/* The css class will display the customer information page. */
+.display_customer_information_page {
+    display: none;
+}
+
+/* The css class will display the checkout summary page. */
+.display_checkout_summary_page {
+    display: none;
+}
+
+/* The css class will display the Order Confirmed page. */
+.display_order_confirmed_page {
+    display: none;
+}
+
+/* The css class will center the table. */
+.center_table {
+    width: 100%;
+}
