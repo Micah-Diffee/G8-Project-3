@@ -13,6 +13,11 @@
     text-align: center;
 }
 
+/* The css class will center the text on the empty checkout page. */
+.empty_checkout_page {
+    text-align: center;
+}
+
 /* The css class will center the text and buttons on the combos page. */
 .combos_page {
     text-align: center;
@@ -270,6 +275,11 @@
     display: none;
 }
 
+/* The css class will set the empty checkout page on the customer kiosk visible. */
+.empty_checkout_page_kiosk {
+    display: none;
+}
+
 /* The css class will display the checkout button. */
 .display_checkout_button {
     display: contents;
@@ -302,5 +312,18 @@
 
 /* The css class will center the table. */
 .center_table {
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* The css class will style and color the table */
+.design_table {
+    color: black;
+}
+
+/* Adding borders to the tables. */
+th, td {
+    border: 1px solid black;
+    padding: 10px;
 }

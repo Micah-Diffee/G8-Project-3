@@ -189,7 +189,7 @@ export function CustomerKioskDisplay() {
                 prices.map((menuItem) => {
                     if (menuItem.productname === menuItemName) {
                         // Adding the product name to the transaction item list
-                        transactionItemList.push([["Al La Carte"], [menuItem.productname], [menuItem.cost], [transactionNumber]]);
+                        transactionItemList.push([["A La Carte"], [menuItem.productname], [menuItem.cost], [transactionNumber]]);
 
                         // Adding the price of the item to the current total
                         let newCurrentTotal = totalCost + menuItem.cost;
@@ -407,30 +407,40 @@ export function CustomerKioskDisplay() {
     // The button will go to the checkout page.
     function CheckoutButton() {
         function handleClick() {
+            // The code will remove a combo transaction item from the customer's order if he or she did not complete it.
+            removeIncompleteComboOrder();
+
             // The code will hide the current kiosk page.
             const currentPage = document.querySelector("." + currentKioskPage);
             currentPage.style.display = 'none';
 
-            // The code will visually show the checkout page.
-            const checkoutPage = document.querySelector(".checkout_page_kiosk");
-            checkoutPage.style.display = 'contents';
+            if (transactionItemList.length != 0) {
+                // The code will visually show the checkout page.
+                const checkoutPage = document.querySelector(".checkout_page_kiosk");
+                checkoutPage.style.display = 'contents';
 
-            // The code will store the checkout page as the current kiosk page.
-            setCurrentKioskPage("checkout_page_kiosk");
+                // The code will store the checkout page as the current kiosk page.
+                setCurrentKioskPage("checkout_page_kiosk");
 
-            // The code will hide the current checkout button.
-            const checkoutButton = document.querySelector("." + currentCheckoutButton);
-            checkoutButton.style.display = 'none';
+                // The code will hide the current checkout button.
+                const checkoutButton = document.querySelector("." + currentCheckoutButton);
+                checkoutButton.style.display = 'none';
 
-            // The code will visually show the proceed to payment method button.
-            const proceedToPaymentMethodButton = document.querySelector(".display_proceed_to_payment_method_button");
-            proceedToPaymentMethodButton.style.display = 'contents';
+                // The code will visually show the proceed to payment method button.
+                const proceedToPaymentMethodButton = document.querySelector(".display_proceed_to_payment_method_button");
+                proceedToPaymentMethodButton.style.display = 'contents';
 
-            // The code will store the proceed to payment method button as the current checkout button.
-            setCurrentCheckoutButton("display_proceed_to_payment_method_button");
+                // The code will store the proceed to payment method button as the current checkout button.
+                setCurrentCheckoutButton("display_proceed_to_payment_method_button");
+            }
+            else {
+                // The code will visually show the empty checkout page.
+                const emptyCheckoutPage = document.querySelector(".empty_checkout_page_kiosk");
+                emptyCheckoutPage.style.display = 'contents';
 
-            // The code will remove a combo transaction item from the customer's order if he or she did not complete it.
-            removeIncompleteComboOrder();
+                // The code will store the empty checkout page as the current kiosk page.
+                setCurrentKioskPage("empty_checkout_page_kiosk");
+            }
         }
 
         return (
@@ -563,8 +573,8 @@ export function CustomerKioskDisplay() {
                 const formattedTime = hours + ":" + minutes + ":" + seconds;
 
                 const year = currentDateTime.getFullYear();
-                const month = currentDateTime.getMonth();
-                const day = currentDateTime.getDay();
+                const month = currentDateTime.getMonth() + 1;
+                const day = currentDateTime.getDate();
                 const currentDate = year + "-" + month + "-" + day;
                 
                 // The code will store the customer's information into the database.
@@ -574,13 +584,34 @@ export function CustomerKioskDisplay() {
                 handleQuery(customerInfoQuery);
 
                 // The code will store the current transaction in the database.
-                let dailyTransactionQuery = "INSERT INTO dailytransactions VALUES (\'" + currentDate + "\',\'" + formattedTime + "\'," + randomTransactionID + ",\'" + customerPaymentMethod + "\'," + totalCost + ",\'" + transactionItemList.at(transactionItemList.length - 1).at(0).at(0) + "\',\'" + transactionItemList.at(transactionItemList.length - 1).at(1).at(0) + "\',0);";
+                let productItems = "";
+                for (let i = 0; i < transactionItemList.length; i++) {
+                    if (i == (transactionItemList.length - 1)) {
+                        productItems = productItems.concat(transactionItemList.at(i).at(1).at(0));
+                    }
+                    else {
+                        productItems = productItems.concat(transactionItemList.at(i).at(1).at(0));
+                        productItems = productItems.concat(", ");
+                    }
+                }
+
+                let comboItems = "";
+                for (let i = 0; i < transactionItemList.length; i++) {
+                    if (i == (transactionItemList.length - 1)) {
+                        comboItems = comboItems.concat(transactionItemList.at(i).at(0).at(0));
+                    }
+                    else {
+                        comboItems = comboItems.concat(transactionItemList.at(i).at(0).at(0));
+                        comboItems = comboItems.concat(", ");
+                    }
+                }
+
+                let dailyTransactionQuery = "INSERT INTO dailytransactions VALUES (\'" + currentDate + "\',\'" + formattedTime + "\'," + randomTransactionID + ",\'" + customerPaymentMethod + "\'," + totalCost + ",\'" + comboItems + "\',\'" + productItems + "\',0);";
                 handleQuery(dailyTransactionQuery);
 
                 // Switch to the order confirmation page.
 
                 // The code will hide the checkout summary page.
-
                 const checkoutSummaryPage = document.querySelector(".display_checkout_summary_page");
                 checkoutSummaryPage.style.display = 'none';
 
@@ -845,7 +876,7 @@ export function CustomerKioskDisplay() {
 
                             {/* The table will display the customer's order */}
                             <div class="center_table">
-                                <table class="center_table">
+                                <table class="design_table">
                                     {/* The table heading */}
                                     <thead>
                                         <tr>
@@ -860,7 +891,7 @@ export function CustomerKioskDisplay() {
                                             <tr>
                                                 <td>{orderedItem.at(0).at(0)}</td>
                                                 <td>{orderedItem.at(1).at(0)}</td>
-                                                <td>{orderedItem.at(2).at(0)}</td>
+                                                <td>{orderedItem.at(2).at(0)} $</td>
                                                 <td><DeleteItemButton transactionNumberInfo={orderedItem.at(3).at(0)} /></td>
                                             </tr>
                                         )))}
@@ -869,6 +900,14 @@ export function CustomerKioskDisplay() {
                             </div>
                         </div>
                     </div>
+
+                    {/* The kiosk will display an empty checkout page. */}
+                    <div class="empty_checkout_page_kiosk">
+                        <div class="empty_checkout_page">
+                            <p>You have not added any items to your order</p>
+                        </div>
+                    </div>
+
                     <div class="row_property">
                         {/* The current total box at the bottom left of the kiosk page. */}
                         <div class="left_column_secondary">
@@ -915,7 +954,7 @@ export function CustomerKioskDisplay() {
 
                     {/* The table will display the customer's order */}
                     <div class="center_table">
-                        <table class="center_table">
+                        <table class="design_table">
                             {/* The table heading */}
                             <thead>
                                 <tr>
@@ -929,14 +968,14 @@ export function CustomerKioskDisplay() {
                                     <tr>
                                         <td>{orderedItem.at(0).at(0)}</td>
                                         <td>{orderedItem.at(1).at(0)}</td>
-                                        <td>{orderedItem.at(2).at(0)}</td>
+                                        <td>{orderedItem.at(2).at(0)} $</td>
                                     </tr>
                                 )))}
                             </tbody>
                         </table>
                     </div>
 
-                    <p>Total Cost: {totalCost}</p>
+                    <p>Total Cost: {totalCost} $</p>
                     <p>Payment Method: {customerPaymentMethod}</p>
                     <p>Name: {customerName}</p>
                     <SubmitOrder userDecision={"Submit Order"} />
