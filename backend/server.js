@@ -4,7 +4,7 @@ const cors = require('cors');
 const { Pool } = require('pg'); // Use 'pg' library for PostgreSQL
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
@@ -26,24 +26,6 @@ process.on('SIGINT', function() {
 });
 	 	 	 	
 // The function will send queries to the database.
-app.post('/executeQuery', (req, res) => {
-    const { query } = req.body; // Extract the SQL query from the request body
-
-    if (!query) {
-        return res.status(400).send('Query is required');
-    }
-
-    // Execute the SQL query using the pool.query method
-    pool.query(query)
-        .then(() => {
-            res.send('Query executed successfully');
-        })
-        .catch(error => {
-            res.status(500).send('Error executing query');
-            console.error(error);
-        });
-});
-
 app.post('/executeQuery', (req, res) => {
     const { query } = req.body; // Extract the SQL query from the request body
 
