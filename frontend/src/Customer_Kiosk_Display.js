@@ -15,12 +15,22 @@ export function CustomerKioskDisplay() {
     // The state will store the customerInformation data.
     const [customerInformation, setCustomerInformation] = useState([]);
 
+    // The state to track loading status
+    const [loading, setLoading] = useState(true); // Loading is true initially
+
     // Fetching the prices data from the backend
     useEffect(() => {
+        setLoading(true);  // Set loading to true initially
         fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Prices')
             .then(response => response.json())
-            .then(data => setPrices(data.prices))
-            .catch(error => console.error('Error fetching prices data:', error));
+            .then(data => {
+                setPrices(data.prices);  // Set the prices data
+                setLoading(false);  // Set loading to false after data is loaded
+            })
+            .catch(error => {
+                console.error('Error fetching prices data:', error);
+                setLoading(false);  // Ensure loading is set to false even if an error occurs
+            });
     }, []);
 
     // Fetching the menumatch data from the backend
@@ -686,9 +696,19 @@ export function CustomerKioskDisplay() {
         .catch(error => console.error('Error executing query:', error));
     }
 
+    // Loading screen component
+    const LoadingScreen = () => (
+        <div className="loading-screen">
+            <div className="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    );
+
     // Displaying the webpage.
     return (
         <div>
+            {/* Show loading screen while fetching data */}
+            {loading ? (<LoadingScreen />) : ( <>
             {/* The heading of the customer kiosk. */}
             <header className="page_header">
                 <p>Panda Express Kiosk</p>
@@ -991,6 +1011,8 @@ export function CustomerKioskDisplay() {
                     <ReturnToHomeButton />
                 </div>
             </div>
+            </>
+            )}
         </div>
     )
 }
