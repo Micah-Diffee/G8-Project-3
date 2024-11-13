@@ -15,7 +15,7 @@ function EmployeeInfo() {
 
     // Fetch Inventory Data
     useEffect(() => {
-        fetch('http://localhost:5000/api/EmployeeInfo')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/EmployeeInfo')
             .then(response => response.json())
             .then(data => setEmployees(data.employees))
             .catch(error => console.error('Error fetching data:', error));
@@ -109,7 +109,7 @@ function EmployeeInfo() {
     
     // Function to send command to database
     const handleQuery = (query) => {
-        fetch('http://localhost:5000/executeQuery', {
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: query })

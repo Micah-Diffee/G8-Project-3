@@ -17,7 +17,7 @@ export function CustomerKioskDisplay() {
 
     // Fetching the prices data from the backend
     useEffect(() => {
-        fetch('http://localhost:5000/api/Prices')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Prices')
             .then(response => response.json())
             .then(data => setPrices(data.prices))
             .catch(error => console.error('Error fetching prices data:', error));
@@ -25,7 +25,7 @@ export function CustomerKioskDisplay() {
 
     // Fetching the menumatch data from the backend
     useEffect(() => {
-        fetch('http://localhost:5000/api/MenuMatch')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/MenuMatch')
             .then(response => response.json())
             .then(data => setMenuMatch(data.menuMatch))
             .catch(error => console.error('Error fetching menu match data:', error));
@@ -33,7 +33,7 @@ export function CustomerKioskDisplay() {
 
     // Fetching the customerInformation data from the backend
     useEffect(() => {
-        fetch('http://localhost:5000/api/CustomerInformation')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/CustomerInformation')
             .then(response => response.json())
             .then(data => setCustomerInformation(data.customerInformation))
             .catch(error => console.error('Error fetching customer information data:', error));
@@ -643,7 +643,7 @@ export function CustomerKioskDisplay() {
 
     // The code will handle queries to the backend of the database (Thanks to Micah for the following code).
     function handleQuery(query) {
-        fetch('http://localhost:5000/executeQuery', {
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

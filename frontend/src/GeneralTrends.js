@@ -7,7 +7,7 @@ function GeneralTrends() {
   const [stats, setStats] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/GeneralTrends')
+    fetch('https://panda-express-pos-backend-nc89.onrender.com/api/GeneralTrends')
       .then(response => response.json())
       .then(data => {
         console.log('Fetched data:', data);

@@ -14,7 +14,7 @@ function Cashier() {
 
     // Fetch data from the backend
     useEffect(() => {
-        fetch('http://localhost:5000/api/Cashier')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Cashier')
             .then(response => response.json())
             .then(data => {
                 // console.log('Data.prices:', data['menu items']);   // testing lines
