@@ -5,7 +5,6 @@ import './Login.css';
 
 // Google OAuth Client ID
 const CLIENT_ID = '162752303669-bq71imvc2gtnunuveu68ddbenmql6j6l.apps.googleusercontent.com';
-const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=30.601389&lon=-96.314445&appid=59676ae95b245e5d7341b81eb62ef3ac&units=imperial';
 
 function Login() {
     const [employees, setEmployees] = useState([]);
@@ -26,7 +25,7 @@ function Login() {
             .catch(error => console.error('Error fetching data:', error));
 
         // Fetch current weather data
-        fetch(WEATHER_API_URL)
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/weather')
             .then(response => response.json())
             .then(data => setWeatherData(data))
             .catch(error => console.error('Error fetching data:', error));

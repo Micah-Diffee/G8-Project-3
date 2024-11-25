@@ -346,6 +346,24 @@ app.post('/api/translate', async (req, res) => {
     }
 });
 
+// Gets the weather from OpenWeather API
+app.get('/api/weather', async (req, res) => {
+    try {
+        // Replace lat and lon with the actual values you want to use
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=30.601389&lon=-96.314445&appid=${process.env.OPENWEATHER_API_KEY}&units=imperial`;
+        
+        // Make the GET request to OpenWeatherMap
+        let weatherResponse = await axios.get(weatherUrl);
+
+        // Respond with the weather data
+        res.json(weatherResponse.data);
+    } catch (error) {
+        console.log('Error fetching weather data:', error);
+        res.status(500).send('Error fetching weather data');
+    }
+});
+
+
 // Endpoint to get product usage data
 app.get('/api/ProductUsage', async (req, res) => {
 
