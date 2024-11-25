@@ -16,11 +16,8 @@ function Cashier() {
 
     // This state is used to store the selected menu that pops up (ex: A La Carte, Combo, etc.)
     const [activeMenu, setActiveMenu] = useState(null); 
-    
-    // This state is used to store all different orders of combos
-    const [comboItems, setComboItems] = useState([]); 
 
-     // This state keeps track of the intermediary selected combo type 
+    // This state keeps track of the intermediary selected combo type 
     const [comboType, setComboType] = useState(null);
 
     // This state is used to store the intermediary selections as a combo is being ordered
@@ -184,7 +181,23 @@ function Cashier() {
         // Daily Transactions updated
         let listOfItems = selectedItems.map(item => item.productname).join(", ");
         console.log(listOfItems);
-        let dailyTransactionQuery = "INSERT INTO dailytransactions VALUES ('" + currentDate + "', '" + formattedTime + "', " + randomTransactionID + ", '" + customerPaymentMethod + "', " + subtotal + ", '" + comboItems + "', '" + listOfItems + "', 11111111);";
+
+        let comboItemsList = []; // Array to store combo items
+        listOfItems.split(',').forEach(item => {
+            item = item.trim(); // Trim any extra spaces
+
+            // Check if the item is a combo type and append it to the comboItems list
+            if (item.includes("Bowl")) {
+                comboItemsList.push("Bowl");
+            } else if (item.includes("Plate")) {
+                comboItemsList.push("Plate");
+            } else if (item.includes("Bigger Plate")) {
+                comboItemsList.push("Bigger Plate");
+            }
+        });
+        let comboItemsString = comboItemsList.join(", ");
+
+        let dailyTransactionQuery = "INSERT INTO dailytransactions VALUES ('" + currentDate + "', '" + formattedTime + "', " + randomTransactionID + ", '" + customerPaymentMethod + "', " + subtotal + ", '" + comboItemsString + "', '" + listOfItems + "', 11111111);";
         handleQuery(dailyTransactionQuery);
 
         // Inventory updated
