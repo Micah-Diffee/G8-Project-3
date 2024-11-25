@@ -7,7 +7,7 @@ function OrderHistory() {
 
     // Fetch data from the backend
     useEffect(() => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/OrderHistory')
+        fetch('http://localhost:5000/api/OrderHistory')
             .then(response => response.json())
             .then(data => {
                 // console.log('Fetched orders:', data); // Log the fetched data

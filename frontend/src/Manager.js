@@ -32,7 +32,9 @@ function ManagerContent() {
   return (
     <>
       {/* Conditionally render navbar only if not on Login page */}
-      {location.pathname !== '/Login' && location.pathname !== '/CustomerKioskDisplay' && location.pathname !== '/Cashier' && (
+      {((location.pathname === '/Inventory') || (location.pathname === '/EmployeeInfo') || (location.pathname === '/UpdateMenu')
+       || (location.pathname === '/OrderHistory') || (location.pathname === '/GeneralTrends') || (location.pathname === '/ProductUsage') 
+       || (location.pathname === '/ZReport') || (location.pathname === '/XReport')) && (
         <div className="menu-bar no-gutters">
           <Link to="/Inventory" className="manager-menu-button">Inventory</Link>
           <Link to="/EmployeeInfo" className="manager-menu-button">Employee Info</Link>

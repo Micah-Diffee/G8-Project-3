@@ -21,7 +21,7 @@ function Inventory() {
 
     // Fetch Inventory Data
     useEffect(() => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/InventoryData')
+        fetch('http://localhost:5000/api/InventoryData')
             .then(response => response.json())
             .then(data => {
                 setInventoryItems(data.inventory);
@@ -144,7 +144,7 @@ function Inventory() {
     };
 
     const handleQuery = (query) => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
+        fetch('http://localhost:5000/executeQuery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: query })

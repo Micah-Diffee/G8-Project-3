@@ -7,7 +7,7 @@ function XReport() {
 
   // Fetch data from the backend
   useEffect(() => {
-    fetch('https://panda-express-pos-backend-nc89.onrender.com/api/XReport')
+    fetch('http://localhost:5000/api/XReport')
       .then(response => response.json())
       .then(data => {
         if (data) {

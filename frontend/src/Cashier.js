@@ -2,26 +2,74 @@ import React, { useEffect, useState } from 'react';
 import './Cashier.css';
 
 function Cashier() {
-    // State used to manage the selected items & subtotal
-    const [selectedItems, setSelectedItems] = useState([]); // items selected during order
-    const [subtotal, setSubTotal] = useState(0); // tracking for cost
-    const [activeMenu, setActiveMenu] = useState(null); // keeps track of which menu is popped up -> A La Carte, Combo, etc.
-    const [prices, setPrices] = useState(null); // storage for menu items from backend
+    // This state is used to store the prices of all menu items from the backend
+    const [prices, setPrices] = useState(null);
     
-    const [comboType, setComboType] = useState(null); // selected combo type
-    const [comboSteps, setComboSteps] = useState([]); // stores the current selections in the combo
-    const [stepIndex, setStepIndex] = useState(0); // keeps track of entree/side selection step
+    // This state is used to store the prices of all menu items from the backend
+    const [menuMatch, setMenuMatch] = useState(null); 
+    
+    // This state is used to keep track of the selected items in one customer's order
+    const [selectedItems, setSelectedItems] = useState([]); 
 
-    // Fetch data from the backend
+    // This state is used to keep track of the subtotal for a customer's order
+    const [subtotal, setSubTotal] = useState(0);
+
+    // This state is used to store the selected menu that pops up (ex: A La Carte, Combo, etc.)
+    const [activeMenu, setActiveMenu] = useState(null); 
+    
+    // This state is used to store all different orders of combos
+    const [comboItems, setComboItems] = useState([]); 
+
+     // This state keeps track of the intermediary selected combo type 
+    const [comboType, setComboType] = useState(null);
+
+    // This state is used to store the intermediary selections as a combo is being ordered
+    const [comboSteps, setComboSteps] = useState([]); 
+
+    // This state is used to keep track of where in the entree/side selections step
+    const [stepIndex, setStepIndex] = useState(0); 
+
+    // This state is used to display the payment pop-up visibility
+    const [paymentPopupVisible, setPaymentPopupVisible] = useState(false);
+
+    // This state is used to store the payment method chosen by the customer
+    const [customerPaymentMethod, setCustomerPaymentMethod] = useState(null);
+
+    // This state to tracks the total premium charge for combos
+    const [premiumCharge, setPremiumCharge] = useState(0);
+
+    // Fetch data from the backend (Code from slides)
     useEffect(() => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Cashier')
+        fetch('http://localhost:5000/api/Cashier')
             .then(response => response.json())
             .then(data => {
-                // console.log('Data.prices:', data['menu items']);   // testing lines
+                console.log('Data.prices:', data['menu items']);   // testing lines
                 setPrices(data['menu items']);
             })
             .catch(error => console.error('Error fetching data:', error));
+
+        fetch('http://localhost:5000/api/MenuMatch')
+            .then(response => response.json())
+            .then(data => {
+                console.log('data.MenuMatch:', data['menuMatch']);   // testing lines
+                setMenuMatch(data['menuMatch']);
+            })
+            .catch(error => console.error('Error fetching data:', error));
     }, []);
+
+    // The code will handle queries to the backend of the database (Code from Micah Diffee).
+    function handleQuery(query) {
+        fetch('http://localhost:5000/executeQuery', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query: query }),
+        })
+        .then(response => response.text())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error executing query:', error));
+    };
 
     // Method that adds item to selectedItems and updates subtotal each time an item is clicked
     const addItem = (itemName) => {
@@ -57,22 +105,40 @@ function Cashier() {
     const handleComboStepSelection = (itemName) => {
         const item = prices.find(i => i.productname === itemName);
         if (item) {
-            setComboSteps(prevSteps => [...prevSteps, itemName]);
-            
-            // Check if the combo steps are complete
-            if (comboSteps.length + 1 === comboType.entreenumber + comboType.sidenumber) {
-                const comboDescription = `${comboType.productname} - ${[...comboSteps, itemName].join(", ")}`; // the ` let you format the line however you want
-                const comboItem = { productname: comboDescription, cost: comboType.cost };
-                setSelectedItems(prevItems => [...prevItems, comboItem]);
-                setSubTotal(prevSubtotal => prevSubtotal + comboType.cost);
-                
-                // Reset combo state after completion
+            const newSteps = [...comboSteps, itemName];
+            setComboSteps(newSteps);
+    
+            let additionalCharge = 0;
+            if (item.premium === 1) {
+                additionalCharge = 1.50;
+                setPremiumCharge((prevCharge) => prevCharge + additionalCharge);
+            }
+    
+            // Check if all combo steps are selected
+            if (newSteps.length === comboType.entreenumber + comboType.sidenumber) {
+                const comboDescription = `${comboType.productname} - ${newSteps.join(", ")}`;
+                const comboTotalCost = comboType.cost + premiumCharge + additionalCharge; // Include all premiums
+    
+                const comboItem = {
+                    productname: comboDescription,
+                    cost: comboTotalCost,
+                };
+    
+                setSelectedItems((prevItems) => [...prevItems, comboItem]);
+                setSubTotal((prevSubtotal) => prevSubtotal + comboTotalCost);
+
+                console.log("Premium Item Check:", item.productname, "PremiumNumber:", item.premium);
+                console.log("Updated Premium Charge:", premiumCharge);
+                console.log("Current Combo Steps:", comboSteps);
+    
+                // Reset states after completing the combo
                 setComboType(null);
                 setComboSteps([]);
                 setStepIndex(0);
                 setActiveMenu(null);
+                setPremiumCharge(0);
             } else {
-                setStepIndex(prevIndex => prevIndex + 1);
+                setStepIndex((prevIndex) => prevIndex + 1);
             }
         }
     };
@@ -80,20 +146,92 @@ function Cashier() {
     const removeItem = (index) => {
         setSelectedItems((prevItems) => {
             const updatedItems = prevItems.filter((_, i) => i !== index);
-
-            // Calculate the new subtotal from the updated items list
+            const removedItem = prevItems[index];
+            
+            // Subtract only the removed item's cost
             const newSubtotal = updatedItems.reduce((acc, item) => acc + item.cost, 0);
+    
+            // Log details for debugging
+            console.log("Removed Item:", removedItem.productname);
+            console.log("Updated Subtotal:", newSubtotal);
+    
             setSubTotal(newSubtotal);
-
             return updatedItems;
         });
     };
-
-    // Checkout functionality
-    // update inventory and dailytransactions (and customer?) // TODO LATER
+    
+    // Checkout button functionality, should open the popup menu
     const checkout = () => {
+        if (selectedItems.length === 0) {
+            alert("No items selected for checkout.");
+            return;
+        }
+    
+        setPaymentPopupVisible(true); // Show the payment modal
+    };
+
+    const handleCompletePayment = () => {
+        if (!customerPaymentMethod) return;
+    
+        // Getting the current day and time (Code from Bryce Borchers)
+        const currentDateTime = new Date();
+        const formattedTime = `${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
+        const month = currentDateTime.getMonth() + 1;
+        const currentDate = `${currentDateTime.getFullYear()}-${month}-${currentDateTime.getDate()}`;
+    
+        const randomTransactionID = Math.floor(10000000 + Math.random() * 90000000);
+    
+        // Daily Transactions updated
+        let listOfItems = selectedItems.map(item => item.productname).join(", ");
+        console.log(listOfItems);
+        let dailyTransactionQuery = "INSERT INTO dailytransactions VALUES ('" + currentDate + "', '" + formattedTime + "', " + randomTransactionID + ", '" + customerPaymentMethod + "', " + subtotal + ", '" + comboItems + "', '" + listOfItems + "', 11111111);";
+        handleQuery(dailyTransactionQuery);
+
+        // Inventory updated
+        const itemList = [];
+        listOfItems.split(",").forEach(item => {
+            const trimmedItem = item.trim(); // to take out any extra spacing
+            if (trimmedItem.includes(" - ")) {
+                const [comboType, entree] = trimmedItem.split(" - ").map(part => part.trim());
+                itemList.push(comboType);
+                itemList.push(entree);
+            }
+            else {
+                itemList.push(trimmedItem);
+            }
+        });
+        
+        itemList.forEach(itemName => {
+            const matchedMenuItem = menuMatch?.find(menuItem => menuItem.menuitem === itemName);
+            if (matchedMenuItem) {
+                
+                const inventoryItemsArray = matchedMenuItem.inventoryitems.split(',').map(item => item.trim());
+        
+                // Loop through each inventory item and execute the query
+                inventoryItemsArray.forEach(inventoryItem => {
+                    console.log("inventoryitem:", inventoryItem);
+                    let updateQuery = `UPDATE inventory SET quantity = quantity - 1 WHERE productname = '${inventoryItem}';`;
+                    handleQuery(updateQuery);
+                });
+            }
+        });
+    
+        // Reset states
         setSelectedItems([]);
         setSubTotal(0);
+        setCustomerPaymentMethod(null);
+        setPaymentPopupVisible(false);
+    };
+    
+    // Handles the selection of payment method
+    const handlePaymentSelection = (method) => {
+        setCustomerPaymentMethod(method);
+    };
+
+    // Closes the payment popup
+    const closePaymentPopup = () => {
+        setPaymentPopupVisible(false);
+        setCustomerPaymentMethod(null); // Reset the payment method
     };
 
     // Logout functionality
@@ -108,6 +246,41 @@ function Cashier() {
             <button className="logout-button" onClick={logout}>Logout</button>
             </div>
 
+            {paymentPopupVisible && (
+                <div className="payment-popup">
+                    <div className="payment-container">
+                        <button className="close-payment-popup" onClick={closePaymentPopup}>
+                            &times;
+                        </button>
+                        <h2>Subtotal: ${subtotal.toFixed(2)}</h2>
+                        <div className='payment-buttons'>
+                            <button className={`payment-button ${customerPaymentMethod === "Cash" ? "selected" : ""}`} onClick={() => handlePaymentSelection("Cash")}>
+                                Cash
+                            </button>
+
+                            <button className={`payment-button ${customerPaymentMethod === "Credit" ? "selected" : ""}`} onClick={() => handlePaymentSelection("Credit")}>
+                                Credit
+                            </button>
+
+                            <button className={`payment-button ${customerPaymentMethod === "Debit" ? "selected" : ""}`} onClick={() => handlePaymentSelection("Debit")}>
+                                Debit
+                            </button>
+
+                            <button className={`payment-button ${customerPaymentMethod === "Dining Dollars" ? "selected" : ""}`} onClick={() => handlePaymentSelection("Dining Dollars")}>
+                                Dining Dollars
+                            </button>
+                        </div>
+                        <button
+                            className={`confirm-payment-button ${customerPaymentMethod ? "enabled" : ""}`}
+                            onClick={handleCompletePayment} // Call the correct function here
+                            disabled={!customerPaymentMethod} // Disable if no payment method selected
+                        >
+                            Complete Payment
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="Cashier-container">
                 {/* Left section: buttons for ordering */}
                 <div className="selection-section">
@@ -118,8 +291,7 @@ function Cashier() {
 
                     {/* Rendering for menu item pop up */}
                     {activeMenu && ( 
-                        <div className="pop-up-menu">
-                            <h4>{activeMenu} Items:</h4> {/* Title for the pop-up section */}
+                        <div className="active-menu">
                             <ul>
                                 {prices && prices
                                     .filter(item => {
@@ -145,7 +317,7 @@ function Cashier() {
 
                     {/* Combo Selection Button */} 
                     {activeMenu === "Combo" && !comboType && (
-                        <div className='pop-up-menu'>
+                        <div className='combo-menu'>
                             <button onClick={() => handleComboSelection("Bowl")}>Bowl</button>
                             <button onClick={() => handleComboSelection("Plate")}>Plate</button>
                             <button onClick={() => handleComboSelection("Bigger Plate")}>Bigger Plate</button>
@@ -154,7 +326,7 @@ function Cashier() {
 
                     {/* Combo Item Selection Steps */} 
                     {comboType && (
-                        <div className='pop-up-menu'>
+                        <div className='active-menu'>
                             <h4> {stepIndex < comboType.entreenumber ? `Choose Entree${comboType.entreenumber > 1 ? ` ${stepIndex + 1}` : ""}` : `Choose Side`} </h4>
                             <ul>
                                 {prices && prices
@@ -191,7 +363,7 @@ function Cashier() {
                     <div className="subtotal">
                         <h4>Subtotal: ${subtotal.toFixed(2)}</h4>
                     </div>
-                    <button className="checkout-button" onClick={() => checkout()}>Checkout</button>
+                    <button className="checkout-button" onClick={checkout}>Checkout</button>
                 </div>
             </div>
         </div>

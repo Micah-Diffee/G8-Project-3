@@ -12,7 +12,7 @@
 }
 
 /* Title styling for the update menu section */
-.section-title {
+.update-menu-section .section-title {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
@@ -20,14 +20,14 @@
 }
 
 /* Content styling within the update menu section */
-.update-menu-content {
+.update-menu-section .update-menu-content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 /* Table container styling for the menu table */
-.menu-table-container {
+.update-menu-section .menu-table-container {
     width: 100%;
     max-width: 100%;
     max-height: 60vh;
@@ -37,14 +37,14 @@
 }
 
 /* Menu table styling */
-.menu-table {
+.update-menu-section .menu-table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 0;
 }
 
 /* Cell styling for the menu table */
-.menu-table th, .menu-table td {
+.update-menu-section .menu-table th, .update-menu-section .menu-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -54,14 +54,32 @@
 }
 
 /* Header styling for the menu table */
-.menu-table th {
+.update-menu-section .menu-table th {
     background-color: #f2f2f2;
     text-align: center;
     font-weight: bold;
 }
 
+/* Change row color on hover */
+.update-menu-section .menu-table tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.update-menu-section .menu-table td input[type="number"] {
+    width: calc(100% + 7px);
+    margin-left: -2px;
+    font-size: 14px; /* Adjust font size if necessary */
+    box-sizing: border-box;
+}
+
+.update-menu-section .menu-table td input[type="text"] {
+    width: calc(100%);
+    font-size: 14px; /* Adjust font size if necessary */
+    box-sizing: border-box;
+}
+
 /* Button container styling */
-.buttons {
+.update-menu-section .buttons {
     display: flex;
     width: 50%;
     justify-content: center;
@@ -70,7 +88,7 @@
 }
 
 /* Action button styling */
-.action-button {
+.update-menu-section .action-button {
     padding: 10px 20px;
     width: 500%;
     background-color: #d3e4fd;
@@ -81,6 +99,159 @@
 }
 
 /* Hover effect for action buttons */
-.action-button:hover {
+.update-menu-section .action-button:hover {
     background-color: #b3cde0;
+}
+
+/* Disable button style */
+.update-menu-section .action-button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+/* Highlight selected row */
+.update-menu-section .selected-row {
+    background-color: #d3e4fd;
+    cursor: pointer;
+}
+
+.update-menu-section .selected-row:hover {
+    background-color: #d3e4fd !important;
+}
+
+/* Popup styling */
+.update-menu-section .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Popup container */
+.update-menu-section .popup-container {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    min-height: 200px; /* Ensure it's tall enough */
+    max-width: 90%; /* Prevent overflow on smaller screens */
+
+    /* Center contents */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+/* Close button */
+.update-menu-section .close-popup {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.update-menu-section .close-popup:hover {
+    color: red;
+}
+
+/* Popup button container */
+/* Flex container for label and input */
+.update-menu-section .input-group {
+    display: flex;
+    justify-content: flex-start; /* Left-align the label */
+    align-items: center; /* Align the label and input vertically */
+    width: 100%; /* Take up full width of the popup container */
+    gap: 10px; /* Add spacing between label and input */
+    margin: 8px 0;
+}
+
+/* Labels */
+.update-menu-section .input-group label {
+    text-align: left; /* Ensure label text is left-aligned */
+    flex: 1; /* Allow the label to take up available space */
+    font-weight: bold;
+}
+
+/* Inputs and textareas */
+.update-menu-section .input-group input,
+.update-menu-section .input-group textarea {
+    flex: 2; /* Make input/textarea wider than the label */
+    max-width: 300px; /* Limit the maximum width */
+    text-align: left; /* Center the text inside the input/textarea */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+/* Textarea-specific styling */
+.update-menu-section .input-group textarea {
+    resize: none; /* Prevent resizing */
+    height: 60px; /* Set a fixed height */
+}
+
+
+.update-menu-section .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.update-menu-section .popup-button {
+    padding: 10px 20px;
+    flex: 1;
+    margin-top: 5px;
+    width: 100%;
+    background-color: #d3e4fd;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.update-menu-section .popup-button:hover {
+    background-color: #b3cde0;
+}
+
+/* Selected menu button styling */
+.update-menu-section .popup-button.selected {
+    background-color: #93cbf7;
+    color: black;
+}
+
+/* Enable/confirm button styling */
+.update-menu-section .confirm-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.update-menu-section .confirm-button:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.update-menu-section .confirm-button.enabled {
+    background-color: #4CAF50;
 }

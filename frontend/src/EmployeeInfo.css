@@ -122,9 +122,9 @@
 
 /* Full-width input fields */
 .form-container input[type="text"] {
-    width: 90%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
+    width: 94%;
+    padding: 10px;
+    margin: 5px 0 17px 0;
     border: 1px solid #ddd;
     background: #f1f1f1;
 }
@@ -152,4 +152,25 @@
 /* Close button style */
 .form-container .cancel:hover {
     opacity: 1;
+}
+
+/* Dropdown styling for the employee role */
+.form-container select {
+    width: 99%;
+    padding: 10px;
+    margin: 5px 0 17px 0;
+    border: 1px solid #ddd;
+    background: #f1f1f1;
+    color: #333;
+}
+
+/* Make the placeholder (first option) text color match input placeholder color */
+.form-container select[name="employeerole"] option[value=""] {
+    color: #777;
+}
+
+/* Add hover and focus styles for better UX */
+select[name="employeerole"]:focus {
+    border-color: #007bff;
+    outline: none;
 }

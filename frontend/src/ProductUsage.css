@@ -1,74 +1,150 @@
 /* General Container for the General Trends Page */
 .product-usage-container {
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-    background-color: #f4f4f4;
-    height: calc(100vh - 60px); 
-    overflow-y: auto;
-  }
-  
-  /* Title Styling */
-  .page-title {
-    position: absolute;
-    top: 80px; 
-    left: 20px;
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  /* Table Styling */
-  .table-wrapper {
-    width: 70%; 
-    max-width: 600px;
     background-color: white;
+    padding: 20px;
     border-radius: 8px;
-    border: solid black;
-    overflow: hidden;
-    margin-top: 80px; 
-    margin-right: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
-  .product-usage-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .product-usage-table caption {
-    font-size: 1.5rem;
-    margin: 10px 0;
-    font-weight: bold;
-  }
-  
-  .product-usage-table th, .product-usage-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-    border: 3px solid black;
-  }
-  
-  .product-usage-table thead {
-    background-color: grey;
-    border: 3px solid black;
-    color: white;
-  }
-
-  /* Generate button Styling */
-.generate-chart-button {
-  position: absolute;
-  bottom: 20px;
-  left: 40px;
-  padding: 25px 50px;
+/* Title styling for each section */
+.section-title {
   font-size: 24px;
-  background-color: black;
-  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+  
+/* Content styling within the product usage section */
+.product-usage-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Table container styling */
+.table-container {
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+  
+.product-usage-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+
+.product-usage-table thead {
+  top: 0;
+  border: 1px solid #ddd;
+}
+
+.product-usage-table th, .product-usage-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header styling for table columns */
+.product-usage-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Generate button Styling */
+/* Styling for button container */
+.buttons {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Styling for generate chart buttons */
+.generate-chart-button {
+  padding: 50px 20px;
+  width: 500%;
+  background-color: #d3e4fd;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
 }
 
 .generate-chart-button:hover {
-  background-color: grey;
+  background-color: #b3cde0;
 }
   
+/* The popup form - hidden by default */
+.form-popup {
+  display: block;
+  position: fixed;
+  top: 0%;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Title styling for the form (centers the text) */
+.form-group h1 {
+  text-align: center;
+}
+
+/* Form container styling */
+.form-group {
+  max-width: 400px;
+  background-color: white;
+  padding: 20px;
+  margin: 0 auto;
+  border-radius: 8px;
+  position: relative;
+  top: 2%;
+}
+
+/* Full-width input fields */
+.form-group input[type="text"] {
+  width: 90%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: 1px solid #ddd;
+  background: #f1f1f1;
+}
+
+/* Form button styling */
+.form-group .btn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.form-group .btn:hover {
+  opacity: 1;
+}
+
+.form-group .cancel {
+  background-color: red;
+}
+
+/* Close button style */
+.form-group .cancel:hover {
+  opacity: 1;
+}

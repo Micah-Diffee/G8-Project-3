@@ -7,7 +7,7 @@ function ZReport() {
 
   // Fetch data from the backend
   useEffect(() => {
-    fetch('https://panda-express-pos-backend-nc89.onrender.com/api/ZReport')
+    fetch('http://localhost:5000/api/ZReport')
       .then(response => response.json())
       .then(data => {
         if (data) {

@@ -10,12 +10,14 @@ function EmployeeInfo() {
         id: '',
         hours: '',
         contact: '',
-        payroll: ''
+        payroll: '',
+        employeerole: '',
+        password: 'PandaExpress'
     });
 
     // Fetch Inventory Data
     useEffect(() => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/EmployeeInfo')
+        fetch('http://localhost:5000/api/EmployeeInfo')
             .then(response => response.json())
             .then(data => setEmployees(data.employees))
             .catch(error => console.error('Error fetching data:', error));
@@ -57,10 +59,10 @@ function EmployeeInfo() {
     // Function to handle when the form is submitted
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const { name, id, hours, contact, payroll } = formData;
+        const { name, id, hours, contact, payroll, employeerole, password } = formData;
     
         // Check if any field is empty
-        if (!name || !id || !hours || !contact || !payroll) {
+        if (!name || !id || !hours || !contact || !payroll || !employeerole || !password) {
             alert("Please fill in all fields.");
             return;
         }
@@ -90,10 +92,10 @@ function EmployeeInfo() {
         }
     
         // If all validations pass, proceed with the SQL insertion and form data reset
-        const SQLcommand = `INSERT INTO employeedata (name, id, hours, contact, payroll) VALUES ('${name}', '${id}', '${hours}', '${contact}', '${payroll}')`;
+        const SQLcommand = `INSERT INTO employeedata (name, id, hours, contact, payroll, employeerole, password) VALUES ('${name}', '${id}', '${hours}', '${contact}', '${payroll}', '${employeerole}', '${password}')`;
         handleQuery(SQLcommand);
     
-        const newEmployee = { name, id, hours, contact, payroll };
+        const newEmployee = { name, id, hours, contact, payroll, employeerole, password };
     
         // Add the new employee to the list and set the new employee as selected
         setEmployees((prevEmployees) => {
@@ -102,14 +104,14 @@ function EmployeeInfo() {
             return updatedEmployees;
         });
     
-        // Close the form after submission an reset form data
+        // Close the form after submission and reset form data
         setIsFormOpen(false);
-        setFormData({ name: '', id: '', hours: '', contact: '', payroll: '' });
+        setFormData({ name: '', id: '', hours: '', contact: '', payroll: '', employeerole: '', password: '' });
     };
     
     // Function to send command to database
     const handleQuery = (query) => {
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
+        fetch('http://localhost:5000/executeQuery', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: query })
@@ -122,7 +124,7 @@ function EmployeeInfo() {
     // Function to handle form Close button
     const handleCloseForm = () => {
         setIsFormOpen(false);
-        setFormData({ name: '', id: '', hours: '', contact: '', payroll: '' });
+        setFormData({ name: '', id: '', hours: '', contact: '', payroll: '', employeerole: '', password: 'PandaExpress' });
     };
 
     return (
@@ -136,6 +138,7 @@ function EmployeeInfo() {
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Role</th>
                                 <th>ID</th>
                                 <th>Hours</th>
                                 <th>Contact</th>
@@ -150,6 +153,7 @@ function EmployeeInfo() {
                                     className={selectedEmployee === employee.id ? 'selected-row' : ''}
                                 >
                                     <td>{employee.name}</td>
+                                    <td>{employee.employeerole}</td>
                                     <td>{employee.id}</td>
                                     <td>{employee.hours}</td>
                                     <td>{employee.contact}</td>
@@ -191,6 +195,18 @@ function EmployeeInfo() {
                             onChange={(e) => setFormData({ ...formData, id: e.target.value })}
                             required
                         />
+
+                        <label for="employeerole"><b>Employee Role</b></label>
+                        <select
+                            name="employeerole"
+                            value={formData.employeerole}
+                            onChange={(e) => setFormData({ ...formData, employeerole: e.target.value })}
+                            required
+                        >
+                            <option value="">Select Role</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Cashier">Cashier</option>
+                        </select>
 
                         <label for="hours"><b>Hours</b></label>
                         <input

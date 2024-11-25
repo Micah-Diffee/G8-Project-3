@@ -1,67 +1,192 @@
+/* General Reset and Typography */
+.login-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Sets general body format */
+body.login-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 /* Login Page Container */
-.login-container {
+.login-page .login-container {
+  background-color: #ffffff;
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  min-height: 400px;
+  margin: 20px;
+}
+
+/* Header */
+.login-page h1 {
+  margin-bottom: 30px;
+  font-size: 2.5em;
+  color: #4f4f4f;
+  font-weight: 600;
+}
+
+/* Input Group Styling */
+.login-page .input-group {
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.login-page .input-group label {
+  font-size: 1.1em;
+  color: #444;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.login-page .input-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease-in-out;
+}
+
+.login-page .input-group input:focus {
+  border-color: #4c90f0;
+}
+
+.login-page .error-message {
+  color: #ff4d4d;
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Login Button Styling */
+.login-page button[type="submit"] {
+  background-color: #4c90f0;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  width: 100%;
+}
+
+.login-page button[type="submit"]:hover {
+  background-color: #357ae8;
+}
+
+.login-page .or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.login-page .or-divider::before, .login-page .or-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  margin: 0 10px;
+}
+
+.login-page .or-divider span {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Google Button Styling */
+.login-page #google-login-button {
+  margin-top: 20px;
+}
+
+.login-page #gsi_1 {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+/* Back Button Styling */
+.login-page .back-button-login {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.login-page .back-button-login:hover {
+  background-color: #e60000;
+}
+
+/* Welcome Styling */
+.welcome-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: white;
-  position: relative; /* To position the back button inside this container */
-}
-
-/* Input Field Styling */
-.login-input {
-  padding: 10px;
-  margin-bottom: 20px;
-  font-size: 24px;
-  width: 220px;
-  text-align: center;
-  border: 2px solid black;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
-}
-
-/* Keypad Container */
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-/* Keypad Button Styling */
-.keypad-button {
+  background-color: #f0f8ff;
+  font-family: 'Arial', sans-serif;
+  color: #333;
   padding: 20px;
-  font-size: 18px;
-  border: 2px solid black;
-  border-radius: 5px;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  box-sizing: border-box;
+  text-align: center;
 }
 
-/* Hover Effect for Buttons */
-.keypad-button:hover {
-  background-color: grey;
-  color: white;
+.welcome-container h1 {
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-/* Back Button Styling */
-.back-button {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 20px 25px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+.welcome-container p {
+  font-size: 1.2rem;
+  color: #34495e;
+  text-align: center;
+  margin: 10px 0;
 }
 
-.back-button:hover {
-  background-color: grey;
+.welcome-container img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+}
+
+.welcome-container {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
 }

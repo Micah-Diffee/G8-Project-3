@@ -1,335 +1,556 @@
 /* The css class will center the text and buttons the web page. */
-.kiosk_display {
+.customer-kiosk-display .kiosk_display {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the appetizers page. */
-.appetizers_page {
+.customer-kiosk-display .appetizers_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the checkout page. */
-.checkout_page {
+.customer-kiosk-display .checkout_page {
     text-align: center;
 }
 
 /* The css class will center the text on the empty checkout page. */
-.empty_checkout_page {
+.customer-kiosk-display .empty_checkout_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the combos page. */
-.combos_page {
+.customer-kiosk-display .combos_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the drinks page. */
-.drinks_page {
+.customer-kiosk-display .drinks_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the entrees page. */
-.entrees_page {
+.customer-kiosk-display .entrees_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the popular page. */
-.popular_page {
+.customer-kiosk-display .popular_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the sides page. */
-.sides_page {
+.customer-kiosk-display .sides_page {
     text-align: center;
 }
 
 /* The css class will center the text and buttons on the payment method page. */
-.payment_method_page {
+.customer-kiosk-display .payment_method_page {
     text-align: center;
     background-color: lightgray;
 }
 
 /* The css class will center the text and buttons on the customer information page. */
-.customer_information_page {
+.customer-kiosk-display .customer_information_page {
     text-align: center;
+    height: 80vh;
     background-color: lightgray;
 }
 
 /* The css class will center the text and buttons on the checkout summary page. */
-.checkout_summary_page {
+.customer-kiosk-display .checkout_summary_page {
     text-align: center;
+    min-height: 80vh;
+    height: auto;
     background-color: lightgray;
 }
 
 /* The css class will center the text and buttons on the confirmed order page. */
-.order_confirmed_page {
+.customer-kiosk-display .order_confirmed_page {
     text-align: center;
+    height: 80vh;
     background-color: lightgray;
 }
 
 /* The css class will format the in-text headings in the right column of the popular page. */
-.in_text_headings {
+.customer-kiosk-display .in_text_headings {
     font-size: 40px;
+    font-weight: bold;
+    font-family: Georgia, serif;
+    padding-bottom: 1%;
+    padding-top: 1%;
 }
 
-/* The css class will design the header on the page. */
-.page_header {
+/* The css classes will design the header on the page. */
+.customer-kiosk-display .row_property_header {
+    height: 20vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+.customer-kiosk-display .page_header_left {
+    width: 20%;
     background-color: #282c34;
-    min-height: 10px;
+    height: 20vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    border-left: 3px solid black;
+    box-sizing: border-box;
+}
+
+.customer-kiosk-display .page_header_right {
+    width: 80%;
+    background-color: #282c34;
+    height: 20vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
     font-weight: bold;
+    font-family: 'Brush Script MT', cursive;
     color: white;
-    border: 3px solid black;
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    border-right: 3px solid black;
     box-sizing: border-box;
 }
 
 /* The css class will create a row property for the two columns. */
-.row_property {
+.customer-kiosk-display .row_property {
+    height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+/* The css class will create a row property for the two columns. */
+.customer-kiosk-display .row_property_secondary {
+    height: 12%;
     display: flex;
     flex-direction: row;
 }
 
 /* The css class will design the left column. */
-.left_column {
+.customer-kiosk-display .left_column {
     float: left;
-    width: 30%;
+    width: 20%;
     background-color: lightcoral;
     border: 2px solid black;
     box-sizing: border-box;
 }
 
 /* The css class will design the right column. */
-.right_column {
+.customer-kiosk-display .right_column {
     float: right;
-    width: 70%;
+    width: 80%;
     background-color: lightgray;
     border: 2px solid black;
     box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* The css class will make the right column scrollable. */
+.customer-kiosk-display .right_column_scroll_page {
+    height: 88%;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 /* The css class will format the title on the combos page. */
-.right_column_title {
+.customer-kiosk-display .right_column_title {
     font-size: 50px;
     font-weight: bold;
-    border: 2px solid black;
-    padding-left: 50px;
-    padding-top: 20px;
-    padding-right: 50px;
-    padding-bottom: 20px;
+    font-family: Georgia, serif;
+    text-decoration: underline;
+    padding-top: 2%;
+    padding-bottom: 2%;
     display: inline-block;
 }
 
 /* The css class will design the secondary left column for the current total. */
-.left_column_secondary {
-    float: left;
+.customer-kiosk-display .left_column_secondary {
+    float: right;
     width: 50%;
     background-color: rgb(230, 227, 227);
     border: 3px solid black;
     box-sizing: border-box;
-    text-align: left;
+    align-content: center;
+    font-family: Georgia, serif;
     font-size: 38px;
     padding-left: 20px;
 }
 
 /* The css class will design the secondary right column for the checkout button. */
-.right_column_secondary {
+.customer-kiosk-display .right_column_secondary {
     float: right;
     width: 50%;
     background-color: rgb(230, 227, 227);
     border: 2px solid black;
     box-sizing: border-box;
+    align-content: center;
+    text-align: center;
 }
 
 /* The css class will design the title for the payment method page. */
-.payment_method_title {
+.customer-kiosk-display .payment_method_title {
     font-size: 50px;
     font-weight: bold;
+    font-family: Georgia, serif;
+    padding-top: 1.5%;
+    padding-bottom: 2%;
 }
 
-.customer_information_title {
+/* The css class will design the customer information title. */
+.customer-kiosk-display .customer_information_title {
     font-size: 50px;
     font-weight: bold;
+    font-family: Georgia, serif;
+    padding-top: 3%;
+    padding-bottom: 2%;
+}
+
+/* The css class will design the customer information label. */
+.customer-kiosk-display .customer_information_label {
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Georgia, serif;
+    padding-bottom: 1%;
 }
 
 /* The css class will design the employee login button. */
-.employee_login_button_design {
+.customer-kiosk-display .employee_login_button_design {
     width: 90%;
-    height: 100px;
+    height: 10%;
     padding: 10px;
+    font-family: Georgia, serif;
     font-size: 30px;
+    color: white;
     margin-top: 5%;
     margin-left: 5%;
-    background-color: lightgray;
+    border-radius: 10px;
+    border-color: #282c34;
+    background-color: #282c34;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .employee_login_button_design:hover {
+    background-color: #505155;
+    transform: scale(0.95);
+}
+
+/* The css class will design the text translation button */
+.customer-kiosk-display .text_translation_button_design {
+    width: 90%;
+    height: 10%;
+    padding: 10px;
+    font-family: Georgia, serif;
+    font-size: 30px;
+    color: white;
+    margin-top: 5%;
+    margin-left: 5%;
+    border-radius: 10px;
+    border-color: #282c34;
+    background-color: darkred;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .text_translation_button_design:hover {
+    background-color: firebrick;
+    transform: scale(0.95);
 }
 
 /* The css class will design the side buttons. */
-.side_button_design {
+.customer-kiosk-display .side_button_design {
     width: 90%;
-    height: 100px;
+    height: 10%;
     padding: 10px;
+    font-family: Georgia, serif;
     font-size: 30px;
     margin-top: 5%;
     margin-left: 5%;
+    border-radius: 10px;
     background-color: lightgray;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .side_button_design:hover {
+    background-color: rgb(175, 175, 175);
+    transform: scale(0.95);
 }
 
 /* The css class will design the menu item buttons. */
-.menu_item_button_design {
-    width: 300px;
-    height: 300px;
+.customer-kiosk-display .menu_item_button_design {
+    width: 25%;
+    height: 25%;
     padding: 10px;
+    font-family: Georgia, serif;
     font-size: 25px;
     margin-bottom: 25px;
     margin-right: 25px;
+    border-radius: 10px;
+    background-color: rgb(234, 172, 172);
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .menu_item_button_design:hover {
+    background-color: lightcoral;
+    transform: scale(0.90);
 }
 
 /* The css class will design the checkout button. */
-.checkout_button_design {
-    width: 90%;
-    height: 80px;
+.customer-kiosk-display .checkout_button_design {
+    width: 95%;
+    height: 80%;
     padding: 10px;
+    font-family: Georgia, serif;
     font-size: 30px;
-    margin-left: 5%;
-    margin-top: 25px;
+    border-radius: 10px;
     background-color: lightgray;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .checkout_button_design:hover {
+    background-color: rgb(175, 175, 175);
+    transform: scale(0.95);
 }
 
 /* The css class will design the payment method buttons. */
-.payment_method_button_design {
+.customer-kiosk-display .payment_method_button_design {
     width: 48.5%;
     height: 20%;
-    padding-left: 10%;
-    padding-right: 10%;
-    padding-top: 7%;
-    padding-bottom: 7%;
     margin-left: 0.5%;
     margin-right: 0.5%;
     margin-bottom: 1%;
+    border-radius: 10px;
     font-size: 200%;
+    font-family: Georgia, serif;
+    background-color: rgb(234, 172, 172);
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .payment_method_button_design:hover {
+    background-color: lightcoral;
+    transform: scale(0.95);
+}
+
+/* The css class will design the delete order item buttons. */
+.customer-kiosk-display .delete_item_button_design {
+    background-color: whitesmoke;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .delete_item_button_design:hover {
+    background-color: rgb(196, 196, 196);
+    transform: scale(0.90);
+}
+
+/* The css class will design the final checkout button. */
+.customer-kiosk-display .final_checkout_button_design {
+    width: 15%;
+    height: 10%;
+    padding: 10px;
+    font-family: Georgia, serif;
+    font-size: 25px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    border-radius: 10px;
+    background-color: rgb(234, 172, 172);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .final_checkout_button_design:hover {
+    background-color: lightcoral;
+    transform: scale(0.95);
+}
+
+/* The css class will design the return to home button. */
+.customer-kiosk-display .return_to_home_button_design {
+    width: 20%;
+    height: 10%;
+    padding: 10px;
+    font-family: Georgia, serif;
+    font-size: 25px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+    border-radius: 10px;
+    background-color: rgb(234, 172, 172);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.customer-kiosk-display .return_to_home_button_design:hover {
+    background-color: lightcoral;
+    transform: scale(0.95);
+}
+
+/* The css class will diplay the spanish button. */
+.customer-kiosk-display .spanish_button_kiosk {
+    display: contents;
+}
+
+/* The css class will hide the english button. */
+.customer-kiosk-display .english_button_kiosk {
+    display: none;
 }
 
 /* The css class will set the popular page on the customer kiosk visible. */
-.popular_page_kiosk {
+.customer-kiosk-display .popular_page_kiosk {
     display: contents;
 }
 
 /* The css class will set the combos page on the customer kisok visible. */
-.combos_page_kiosk {
+.customer-kiosk-display .combos_page_kiosk {
     display: none;
 }
 
 /* The css class will set the entrees page on the customer kisok visible. */
-.entrees_page_kiosk {
+.customer-kiosk-display .entrees_page_kiosk {
     display: none;
 }
 
 /* The css class will set the appetizers page on the customer kisok visible. */
-.appetizers_page_kiosk {
+.customer-kiosk-display .appetizers_page_kiosk {
     display: none;
 }
 
 /* The css class will set the drinks page on the customer kisok visible. */
-.drinks_page_kiosk {
+.customer-kiosk-display .drinks_page_kiosk {
     display: none;
 }
 
 /* The css class will set the sides page on the customer kisok visible. */
-.sides_page_kiosk {
+.customer-kiosk-display .sides_page_kiosk {
     display: none;
 }
 
 /* The css class will set the first entree combo page on the customer kiosk visible. */
-.first_entree_combo_kiosk {
+.customer-kiosk-display .first_entree_combo_kiosk {
     display: none;
 }
 
 /* The css class will set the second entree combo page on the customer kiosk visible. */
-.second_entree_combo_kiosk {
+.customer-kiosk-display .second_entree_combo_kiosk {
     display: none;
 }
 
 /* The css class will set the third entree combo page on the customer kiosk visible. */
-.third_entree_combo_kiosk {
+.customer-kiosk-display .third_entree_combo_kiosk {
     display: none;
 }
 
 /* The css class will set the side combo page onthe customer kiosk visible. */
-.side_combo_kiosk {
+.customer-kiosk-display .side_combo_kiosk {
     display: none;
 }
 
 /* The css class will set the checkout page on the customer kisok visible. */
-.checkout_page_kiosk {
+.customer-kiosk-display .checkout_page_kiosk {
     display: none;
 }
 
 /* The css class will set the empty checkout page on the customer kiosk visible. */
-.empty_checkout_page_kiosk {
+.customer-kiosk-display .empty_checkout_page_kiosk {
     display: none;
 }
 
+.customer-kiosk-display .empty_checkout_text {
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+
 /* The css class will display the checkout button. */
-.display_checkout_button {
+.customer-kiosk-display .display_checkout_button {
     display: contents;
 }
 
 /* The css class will display the proceed to payment method button. */
-.display_proceed_to_payment_method_button {
+.customer-kiosk-display .display_proceed_to_payment_method_button {
     display: none;
 }
 
 /* The css class will display the payment method page. */
-.display_payment_method_page {
+.customer-kiosk-display .display_payment_method_page {
     display: none;
 }
 
 /* The css class will display the customer information page. */
-.display_customer_information_page {
+.customer-kiosk-display .display_customer_information_page {
     display: none;
 }
 
 /* The css class will display the checkout summary page. */
-.display_checkout_summary_page {
+.customer-kiosk-display .display_checkout_summary_page {
     display: none;
 }
 
 /* The css class will display the Order Confirmed page. */
-.display_order_confirmed_page {
+.customer-kiosk-display .display_order_confirmed_page {
     display: none;
 }
 
 /* The css class will center the table. */
-.center_table {
+.customer-kiosk-display .center_table {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 /* The css class will style and color the table */
-.design_table {
-    color: black;
+.customer-kiosk-display .design_table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: Georgia, serif;
+    min-width: 400px;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
 }
 
 /* Adding borders to the tables. */
-th, td {
-    border: 1px solid black;
-    padding: 10px;
+.customer-kiosk-display .design_table thead, .customer-kiosk-display tr {
+    background-color: lightcoral;
+    color: white;
+    text-align: left;
+    font-weight: bold;
 }
 
+.customer-kiosk-display .design_table th,
+.customer-kiosk-display .design_table td {
+    padding: 12px 15px;
+}
+
+.customer-kiosk-display .design_table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    background-color: rgb(151, 154, 158);
+    color: black;
+}
+
+.customer-kiosk-display .design_table tbody tr:nth-of-type(even) {
+    background-color: rgb(235, 235, 235);
+}
+
+.customer-kiosk-display .design_table tbody tr:last-of-type {
+    border-bottom: 2px solid lightcoral;
+}
+
+/* Make the loading screen look good */
 .loading-screen {
-    position: fixed; /* Fix it to cover the entire screen */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -337,8 +558,8 @@ th, td {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    z-index: 9999; /* Ensure it's on top of other elements */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
     color: white;
     font-size: 24px;
     font-weight: bold;
@@ -358,4 +579,31 @@ th, td {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Make the error screen look good */
+.error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffeeee;
+    color: #d9534f;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.error-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.error-text {
+    font-size: 16px;
+    font-weight: bold;
 }
