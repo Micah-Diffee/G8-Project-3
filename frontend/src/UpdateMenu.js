@@ -28,7 +28,7 @@ function UpdateMenu() {
 
     // Fetch data from the backend (Code from slides)
     useEffect(() => {
-        fetch('http://localhost:5000/api/Prices')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Prices')
             .then(response => response.json())
             .then(data => {
                 // console.log('Data.prices:', data['prices']);
@@ -36,7 +36,7 @@ function UpdateMenu() {
             })
             .catch(error => console.error('Error fetching data:', error));
 
-        fetch('http://localhost:5000/api/MenuMatch')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/MenuMatch')
             .then(response => response.json())
             .then(data => {
                 // console.log('data.MenuMatch:', data['menuMatch']); 
@@ -47,7 +47,7 @@ function UpdateMenu() {
 
     // The code will handle queries to the backend of the database (Code from Micah Diffee).
     async function handleQuery(query) {
-        fetch('http://localhost:5000/executeQuery', {
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,11 +61,11 @@ function UpdateMenu() {
 
     const fetchData = async () => {
         try {
-            const priceResponse = await fetch('http://localhost:5000/api/Prices');
+            const priceResponse = await fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Prices');
             const priceData = await priceResponse.json();
             setPrices(priceData['prices']);
             
-            const menuMatchResponse = await fetch('http://localhost:5000/api/MenuMatch');
+            const menuMatchResponse = await fetch('https://panda-express-pos-backend-nc89.onrender.com/api/MenuMatch');
             const menuMatchData = await menuMatchResponse.json();
             setMenuMatch(menuMatchData['menuMatch']);
             

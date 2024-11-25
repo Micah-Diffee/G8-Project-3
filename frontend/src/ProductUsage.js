@@ -39,7 +39,7 @@ function ProductUsage() {
         endTime
       }).toString();
 
-      const response = await fetch(`http://localhost:5000/api/ProductUsage?${queryParams}`);
+      const response = await fetch(`https://panda-express-pos-backend-nc89.onrender.com/api/ProductUsage?${queryParams}`);
       const data = await response.json();
 
       //Update the inventory data state

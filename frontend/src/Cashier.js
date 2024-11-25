@@ -40,7 +40,7 @@ function Cashier() {
 
     // Fetch data from the backend (Code from slides)
     useEffect(() => {
-        fetch('http://localhost:5000/api/Cashier')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Cashier')
             .then(response => response.json())
             .then(data => {
                 console.log('Data.prices:', data['menu items']);   // testing lines
@@ -48,7 +48,7 @@ function Cashier() {
             })
             .catch(error => console.error('Error fetching data:', error));
 
-        fetch('http://localhost:5000/api/MenuMatch')
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/MenuMatch')
             .then(response => response.json())
             .then(data => {
                 console.log('data.MenuMatch:', data['menuMatch']);   // testing lines
@@ -59,7 +59,7 @@ function Cashier() {
 
     // The code will handle queries to the backend of the database (Code from Micah Diffee).
     function handleQuery(query) {
-        fetch('http://localhost:5000/executeQuery', {
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
