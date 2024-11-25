@@ -2,11 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg'); // Use 'pg' library for PostgreSQL
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 // Create a pool for PostgreSQL connection
 const pool = new Pool({
@@ -68,7 +71,7 @@ app.get('/api/OrderHistory', (req, res) => {
 app.get('/api/EmployeeInfo', async (req, res) => {
     let employees = [];
     pool
-        .query('SELECT * FROM EmployeeData ORDER BY name;')
+        .query('SELECT * FROM EmployeeData ORDER BY employeerole DESC, name;')
         .then(query_res => {
             console.log(query_res.rowCount);
             for (let i = 0; i < query_res.rowCount; i++) {
@@ -331,6 +334,78 @@ app.get('/api/ZReport', async (req, res) => {
     }
 });
 
+// The code will handle the cloud translation API
+app.post('/api/translate', async (req, res) => {
+    try {
+        let translation = await axios.post(`https://translation.googleapis.com/language/translate/v2?key=${process.env.API_KEY}&q=${req.body.text}&target=${req.body.language}`);
+
+        res.json(translation.data.data.translations);
+    }
+    catch (error) {
+        console.log('Error translating text:', error);
+    }
+});
+
+// Endpoint to get product usage data
+app.get('/api/ProductUsage', async (req, res) => {
+
+    const {startDate, endDate, startTime, endTime} = req.query;
+
+    // Validate input parameters
+    if (!startDate || !endDate || !startTime || !endTime) {
+        console.error("Missing or invalid parameters");
+        return res.status(400).json({ error: "Missing or invalid parameters"});
+    }
+
+    try {
+        //Fetch all transactions within the date and time range
+        const transactionQuery = "SELECT lists_of_items FROM dailytransactions WHERE (date > $1 OR (date = $1 AND time >= $2)) AND (date < $3 OR (date = $3 AND time <= $4))";
+        const transactionResult = await pool.query(transactionQuery, [startDate, startTime, endDate, endTime]);
+        
+        //Get all unique menu items
+        const allMenuItems = transactionResult.rows
+            .flatMap(row => row.lists_of_items.split(',').map(item => item.trim()))
+            .filter((item, index, self) => self.indexOf(item) === index);
+
+        //If there are no menu items then inventory usage is empty
+        if (allMenuItems.length === 0) {
+            return res.json({ inventoryUsage: {} });
+        }
+
+        //Fetch all menuMatch data in one query
+        const menuMatchQuery = "SELECT menuitem, inventoryitems FROM menumatch WHERE menuitem = ANY($1::text[])";
+        const menuMatchResult = await pool.query(menuMatchQuery, [allMenuItems]);
+
+        //Create a map for menu items to inventory items
+        const menuMatchMap = {};
+        menuMatchResult.rows.forEach(row => {
+            menuMatchMap[row.menuitem] = row.inventoryitems.split(',').map(inv => inv.trim());
+        });
+
+        //Process inventory items and increment quantity count
+        const productUsage = {};
+        transactionResult.rows.forEach(row => {
+            const items = row.lists_of_items.split(',').map(item => item.trim());
+
+            items.forEach(item => {
+                const inventoryItems = menuMatchMap[item] || [];
+                inventoryItems.forEach(inventoryItem => {
+                    if (!productUsage[inventoryItem]) {
+                        productUsage[inventoryItem] = 0;
+                    }
+                    productUsage[inventoryItem] += 1;
+                });
+            });
+        });
+
+
+        res.json({ inventoryUsage: productUsage });
+    } catch (error) {
+        console.error("Error processing product usage data:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log("Server running at http://localhost:${port}");
 });
