@@ -140,7 +140,7 @@ function ProductUsage() {
             <h1>Add Date Range</h1>
             <hr />
 
-            {/* Limits start date to range between Oct. 27 2023 - 2024 */}
+            {/* Limits start date to range between Oct. 27 2023 - Jan. 6 2025 */}
             <div className="form-group">
               <label htmlFor="startDate"><b>Start Date: </b></label>
               <input
@@ -148,7 +148,7 @@ function ProductUsage() {
                 name="startDate"
                 value={inventoryFormData.startDate}
                 min="2023-10-27"
-                max="2024-10-27"
+                max="2025-01-26"
                 onChange={(e) => setInventoryFormData({ ...inventoryFormData, startDate: e.target.value })}
                 required
               />
@@ -168,7 +168,7 @@ function ProductUsage() {
               />
             </div>
 
-            {/* Limits end date to range between Oct. 27 2023 - 2024 */}
+            {/* Limits end date to range between Oct. 27 2023 - Jan. 6 2025 */}
             <div className="form-group">
               <label htmlFor="endDate"><b>End Date: </b></label>
               <input
@@ -176,7 +176,7 @@ function ProductUsage() {
                 name="endDate"
                 value={inventoryFormData.endDate}
                 min="2023-10-27"
-                max="2024-10-27"
+                max="2025-01-26"
                 onChange={(e) => setInventoryFormData({ ...inventoryFormData, endDate: e.target.value })}
                 required
               />

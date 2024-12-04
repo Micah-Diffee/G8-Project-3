@@ -7,6 +7,7 @@ import './ZReport.css';
 function ZReport() {
   const [zreports, setZReports] = useState([]);
   const [totals, setTotals] = useState({ cash: 0, credit: 0, debit: 0, dining_dollars: 0 });
+  const currentDate = new Date().toISOString().split('T')[0]; 
 
   //Fetch data from the backend API
   useEffect(() => {
@@ -63,7 +64,7 @@ function ZReport() {
   return (
     <>
       <div className="zreport-section">
-        <h1 className="section-title">Date: 09-10-2024</h1>
+        <h1 className="section-title">Date: {(currentDate)}</h1>
         <h1 className="section-title">Z Report</h1>
         <hr />
         {/* Table for Z Report Data */}

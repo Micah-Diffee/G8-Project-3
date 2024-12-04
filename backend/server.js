@@ -257,7 +257,7 @@ app.get('/api/XReport', async (req, res) => {
     let totals = { cash: 0, credit: 0, debit: 0, dining_dollars: 0 };
 
     try {
-        const currentDate = '09-10-2024'; // Replace with dynamic date if needed
+        const currentDate = new Date().toISOString().split('T')[0]; 
         const currentHour = new Date().getHours(); // Get current hour (0-23)
 
         // Fetch hourly sales data up to the current hour
@@ -293,11 +293,12 @@ app.get('/api/XReport', async (req, res) => {
 app.get('/api/ZReport', async (req, res) => {
     let zreports = [];
     let totals = { cash: 0, credit: 0, debit: 0, dining_dollars: 0, total_sales: 0, total_transactions: 0};
+    const currentDate = new Date().toISOString().split('T')[0]; 
 
     try {
         // Fetch hourly sales data
         const hourlyResult = await pool.query(
-            "SELECT DATE_TRUNC('hour', time) AS hour, SUM(order_cost) AS total_sales FROM dailytransactions WHERE date = '09-10-2024' GROUP BY DATE_TRUNC('hour', time) ORDER BY hour;"
+            "SELECT DATE_TRUNC('hour', time) AS hour, SUM(order_cost) AS total_sales FROM dailytransactions WHERE date = '" + currentDate + "' GROUP BY DATE_TRUNC('hour', time) ORDER BY hour;"
         );
         zreports = hourlyResult.rows;
 

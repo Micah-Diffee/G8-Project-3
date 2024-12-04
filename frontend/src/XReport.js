@@ -7,6 +7,7 @@ import './XReport.css';
 function XReport() {
   const [xreports, setXReports] = useState([]);
   const [totals, setTotals] = useState({ cash: 0, credit: 0, debit: 0, dining_dollars: 0 });
+  const currentDate = new Date().toISOString().split('T')[0]; 
 
   //Fetch data from the backend API
   useEffect(() => {
@@ -66,7 +67,7 @@ function XReport() {
   return (
     <>
       <div className="xreport-section">
-        <h1 className="section-title">Date: 09-10-2024</h1>
+        <h1 className="section-title">Date: {(currentDate)}</h1>
         <h1 className="section-title">X Report</h1>
         <hr />
         {/* Table for X Report Data */}
