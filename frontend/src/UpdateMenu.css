@@ -68,13 +68,13 @@
 .update-menu-section .menu-table td input[type="number"] {
     width: calc(100% + 7px);
     margin-left: -2px;
-    font-size: 14px; /* Adjust font size if necessary */
+    font-size: 14px;
     box-sizing: border-box;
 }
 
 .update-menu-section .menu-table td input[type="text"] {
     width: calc(100%);
-    font-size: 14px; /* Adjust font size if necessary */
+    font-size: 14px;
     box-sizing: border-box;
 }
 
@@ -140,15 +140,17 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    min-height: 200px; /* Ensure it's tall enough */
-    max-width: 90%; /* Prevent overflow on smaller screens */
+    width: 45%;
+    max-width: 90%;
+    height: 57%;
+    /* min-height: 200px; Ensure it's tall enough */
+    overflow-y: auto;
 
     /* Center contents */
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /* Close button */
@@ -171,7 +173,7 @@
 /* Flex container for label and input */
 .update-menu-section .input-group {
     display: flex;
-    justify-content: flex-start; /* Left-align the label */
+    justify-content: center; /* Left-align the label */
     align-items: center; /* Align the label and input vertically */
     width: 100%; /* Take up full width of the popup container */
     gap: 10px; /* Add spacing between label and input */
@@ -181,8 +183,9 @@
 /* Labels */
 .update-menu-section .input-group label {
     text-align: left; /* Ensure label text is left-aligned */
-    flex: 1; /* Allow the label to take up available space */
+    flex: 0 1 auto; /* Allow the label to take up available space */
     font-weight: bold;
+
 }
 
 /* Inputs and textareas */
@@ -202,6 +205,36 @@
 .update-menu-section .input-group textarea {
     resize: none; /* Prevent resizing */
     height: 60px; /* Set a fixed height */
+}
+
+.inventory-label {
+    padding-top: 10px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.inventory-table-container {
+    margin-top: 10px; 
+    min-height: fit-content;
+    max-height: 150px; 
+    min-width: fit-content(40%);
+    max-width: 650px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f9f9f9;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th,
+.inventory-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
 }
 
 

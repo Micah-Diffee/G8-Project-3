@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Inventory.css';
 
+/**
+ * Inventory page that allows users to view, add, and restock inventory items.
+ */
 function Inventory() {
     const [inventoryItems, setInventoryItems] = useState([]);
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -19,7 +22,9 @@ function Inventory() {
         restockquantity: ''
     });
 
-    // Fetch Inventory Data
+    /**
+     * Fetches inventory data from the server.
+     */
     useEffect(() => {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/api/InventoryData')
             .then(response => response.json())
@@ -29,12 +34,20 @@ function Inventory() {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-    // Add New Inventory Item
+    /**
+     * Opens the form for adding a new inventory item.
+     * @function handleAdd
+     */
     const handleAdd = () => {
         setIsFormOpen(true);
     };
 
-    // Gathers information from Add Item form and adds the new item to the database
+    /**
+     * Handles form submission for adding a new inventory item to the database.
+     * 
+     * @function handleFormSubmit
+     * @param e - The form submission event.
+     */
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const { productname, cost, quantity, restockamount, stockminimum } = formData;
@@ -60,7 +73,11 @@ function Inventory() {
         setFormData({ productname: '', cost: '', quantity: '', restockamount: '', stockminimum: '' });
     };
     
-    // Function to handle the Restock All button click
+    /**
+     * Handles the "Restock All" action. Updates the database for all items below their minimum stock and calculates the total cost.
+     * 
+     * @function handleRestockAll
+     */
     const handleRestockAll = () => {
         let totalCost = 0;
         let count = 0;
@@ -93,12 +110,21 @@ function Inventory() {
         }
     };
 
-    // Function to handle Custom Restock button click
+    /**
+     * Opens the form for restocking specific items.
+     * 
+     * @function handleCustomRestock
+     */
     const handleCustomRestock = () => {
         setIsCustomRestockOpen(true);
     };
 
-    // Handles when the custom restock form is submitted
+    /**
+     * Handles form submission for restocking a specific item.
+     * 
+     * @function handleCustomRestockSubmit
+     * @param e - The form submission event.
+     */
     const handleCustomRestockSubmit = (e) => {
         e.preventDefault();
         const { productname, restockquantity } = restockData;
@@ -143,6 +169,12 @@ function Inventory() {
         setIsCostPopupOpen(true);
     };
 
+    /**
+     * Sends a query to the server to execute a SQL command.
+     *
+     * @function handleQuery
+     * @param query - The SQL command to be executed.
+     */
     const handleQuery = (query) => {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
@@ -150,21 +182,34 @@ function Inventory() {
             body: JSON.stringify({ query: query })
         })
         .then(response => response.text())
-        .then(data => console.log(data))
         .catch(error => console.error('Error executing query:', error));
     };
 
-    // Handle closing the add item form
+    /**
+     * Handles closing the form for adding a new item.
+     * 
+     * @function handleCloseForm
+     */
     const handleCloseForm = () => {
         setIsFormOpen(false);
         setFormData({ productname: '', quantity: '', restockamount: '', cost: '' });
     };
-    // Handle closing the custom restock form
+    
+    /**
+     * Handles closing the form for restocking a specific item.
+     * 
+     * @function handleCloseCustomRestock
+     */
     const handleCloseCustomRestock = () => {
         setIsCustomRestockOpen(false);
         setRestockData({ productname: '', restockquantity: '' });
     };
-    // Handle closing the total cost popup
+
+    /**
+     * Handles closing the popup showing the total cost of restocking.
+     * 
+     * @function handleCloseCostPopup
+     */
     const handleCloseCostPopup = () => {
         setIsCostPopupOpen(false);
     };

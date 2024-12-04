@@ -93,6 +93,7 @@ body.login-page {
   background-color: #357ae8;
 }
 
+/* Styling for the 'or' divider */
 .login-page .or-divider {
   display: flex;
   align-items: center;

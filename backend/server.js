@@ -343,26 +343,9 @@ app.post('/api/translate', async (req, res) => {
     }
     catch (error) {
         console.log('Error translating text:', error);
+        res.status(500).send('Error translating text.');
     }
 });
-
-// Gets the weather from OpenWeather API
-app.get('/api/weather', async (req, res) => {
-    try {
-        // Replace lat and lon with the actual values you want to use
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=30.601389&lon=-96.314445&appid=${process.env.OPENWEATHER_API_KEY}&units=imperial`;
-        
-        // Make the GET request to OpenWeatherMap
-        let weatherResponse = await axios.get(weatherUrl);
-
-        // Respond with the weather data
-        res.json(weatherResponse.data);
-    } catch (error) {
-        console.log('Error fetching weather data:', error);
-        res.status(500).send('Error fetching weather data');
-    }
-});
-
 
 // Endpoint to get product usage data
 app.get('/api/ProductUsage', async (req, res) => {
@@ -421,6 +404,70 @@ app.get('/api/ProductUsage', async (req, res) => {
     } catch (error) {
         console.error("Error processing product usage data:", error);
         res.status(500).send("Internal Server Error");
+    }
+});
+
+// The code will send queries to the database to get the total sales between two specific times.
+app.get('/api/DynamicPricingTotalSales', async (req, res) => {
+    try {
+        // The arrays will store the dynamic pricing information.
+        let startingTimes = [];
+        let totalSalesTimes = [];
+        let priceModification = [];
+        let salesRankings = [];
+
+        for (let i = 8; i <= 20; i++) {
+            // The code will send the query to get the total sales between two specific times.
+            let startingTime = i.toString() + ":00:00";
+            let endingTime = i.toString() + ":59:59";
+            const queryTotalCost = "SELECT SUM(order_cost) FROM dailytransactions WHERE time > '" + startingTime + "' AND time < '" + endingTime + "';";
+            const totalSales = await pool.query(queryTotalCost);
+
+            // The code will store the totalCost into the arrays.
+            startingTimes.push(startingTime);
+            totalSalesTimes.push(totalSales.rows[0].sum);
+            priceModification.push(0.0);
+            salesRankings.push(0);
+        }
+
+        // The code will rank the total sales.
+        for (let i = 0; i < salesRankings.length; i++) {
+            let smallestSales = totalSalesTimes.at(0);
+            let smallestSalesIndex = 0;
+            
+            for (let j = 0; j < salesRankings.length; j++) {
+                if ((smallestSales > totalSalesTimes.at(j)) && (salesRankings.at(j) == 0)) {
+                    smallestSales = totalSalesTimes.at(j);
+                    smallestSalesIndex = j;
+                }
+            }
+
+            salesRankings[smallestSalesIndex] = i + 1;
+        }
+
+        // The code will allocate the price adjustments.
+        let priceAdjustment = -0.6;
+        for (let i = 1; i <= salesRankings.length; i++) {
+            for (let j = 0; j < salesRankings.length; j++) {
+                if (salesRankings[j] == i) {
+                    if (parseFloat(priceAdjustment.toFixed(2)) === -0) {
+                        priceModification[j] = 0;
+                    }
+                    else {
+                        priceModification[j] = parseFloat(priceAdjustment.toFixed(2));
+                    }
+                }
+            }
+
+            priceAdjustment = priceAdjustment + 0.1;
+        }
+        
+        // The code sends the arrays to the frontend.
+        res.json({"times": startingTimes, "sales": totalSalesTimes, "rankings": salesRankings, "priceMods": priceModification});
+    }
+    catch (error) {
+        console.error("Error getting total sales between specific times:", error);
+        res.status(500).send("Error getting total sales between specific imes.");
     }
 });
 

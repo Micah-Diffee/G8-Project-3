@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './EmployeeInfo.css';
 
+/**
+ * Employee Info page that allows users to view and add employees.
+ */
 function EmployeeInfo() {
     const [employees, setEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -15,7 +18,9 @@ function EmployeeInfo() {
         password: 'PandaExpress'
     });
 
-    // Fetch Inventory Data
+    /**
+     * Fetches employee data from the server.
+     */
     useEffect(() => {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/api/EmployeeInfo')
             .then(response => response.json())
@@ -23,7 +28,11 @@ function EmployeeInfo() {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-    // Function to handle Delete Item button click
+    /**
+     * Handles the deletion of a selected employee.
+     * 
+     * @function handleDelete
+     */
     const handleDelete = () => {
 
         // If no employee is selected, show a message
@@ -40,12 +49,21 @@ function EmployeeInfo() {
         handleQuery(SQLcommand);
     };
 
-    // Open the form when "Add Item" is clicked
+    /**
+     * Opens the form for adding a new employee.
+     * 
+     * @function handleAdd
+     */
     const handleAdd = () => {
         setIsFormOpen(true);
     };
 
-    // Function to highlight and store selected row
+    /**
+     * Handles the selection of an employee when a row in the table is clicked.
+     * 
+     * @function handleRowClick
+     * @param employee - The employee that is selected.
+     */
     const handleRowClick = (employee) => {
 
         // Toggle selection. If the clicked employee is already selected, deselect it
@@ -56,7 +74,12 @@ function EmployeeInfo() {
         }
     };
     
-    // Function to handle when the form is submitted
+    /**
+     * Handles form submission for adding a new employee to the database.
+     * 
+     * @function handleFormSubmit
+     * @param e - The form submission event.
+     */
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const { name, id, hours, contact, payroll, employeerole, password } = formData;
@@ -109,7 +132,12 @@ function EmployeeInfo() {
         setFormData({ name: '', id: '', hours: '', contact: '', payroll: '', employeerole: '', password: '' });
     };
     
-    // Function to send command to database
+    /**
+     * Sends a query to the server to execute a SQL command.
+     *
+     * @function handleQuery
+     * @param query - The SQL command to be executed.
+     */
     const handleQuery = (query) => {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
@@ -117,11 +145,14 @@ function EmployeeInfo() {
             body: JSON.stringify({ query: query })
         })
         .then(response => response.text())
-        .then(data => console.log(data))
         .catch(error => console.error('Error executing query:', error));
     };
 
-    // Function to handle form Close button
+    /**
+     * Handles closing the form for adding a new employee.
+     * 
+     * @function handleCloseForm
+     */
     const handleCloseForm = () => {
         setIsFormOpen(false);
         setFormData({ name: '', id: '', hours: '', contact: '', payroll: '', employeerole: '', password: 'PandaExpress' });

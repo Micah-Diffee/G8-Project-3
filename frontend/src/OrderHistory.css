@@ -44,7 +44,8 @@
 .history-table th, .history-table td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: center;
+    /* text-align: center; */
+    width: 2px;
 }
 
 /* Header styling for the history table */

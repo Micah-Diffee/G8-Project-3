@@ -5,7 +5,11 @@ import './Login.css';
 
 // Google OAuth Client ID
 const CLIENT_ID = '162752303669-bq71imvc2gtnunuveu68ddbenmql6j6l.apps.googleusercontent.com';
+const WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather?lat=30.601389&lon=-96.314445&appid=59676ae95b245e5d7341b81eb62ef3ac&units=imperial';
 
+/**
+ * Login page for employees. Handles user authentication via Google OAuth or manual login.
+ */
 function Login() {
     const [employees, setEmployees] = useState([]);
     const [weatherData, setWeatherData] = useState([]);
@@ -18,19 +22,25 @@ function Login() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        // Fetch Employee Data
+        /**
+         * Fetches employee data from the backend API.
+         */
         fetch('https://panda-express-pos-backend-nc89.onrender.com/api/EmployeeInfo')
             .then(response => response.json())
             .then(data => setEmployees(data.employees))
             .catch(error => console.error('Error fetching data:', error));
 
-        // Fetch current weather data
-        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/weather')
+        /**
+         * Fetches weather data from the API. 
+         */
+        fetch(WEATHER_URL)
             .then(response => response.json())
             .then(data => setWeatherData(data))
             .catch(error => console.error('Error fetching data:', error));
 
-        // Initialize Google OAuth when the component mounts
+        /**
+         * Initializes Google OAuth by loading the script and setting up the login button.
+         */
         const initializeGoogleOAuth = () => {
             window.google.accounts.id.initialize({
                 client_id: CLIENT_ID,
@@ -47,7 +57,6 @@ function Login() {
             );
         };
 
-        // Load the Google OAuth script
         const script = document.createElement('script');
         script.src = 'https://accounts.google.com/gsi/client';
         script.async = true;
@@ -60,10 +69,14 @@ function Login() {
         };
     }, []);
 
-	// Handle when a user clicks the log in with google button
+    /**
+     * Handles Google login and decodes the user's credential token.
+     * 
+     * @function handleGoogleLogin
+     * @param response - The response object from Google OAuth.
+     */
     const handleGoogleLogin = (response) => {
         const decoded = jwtDecode(response.credential);
-        console.log(decoded);
         if (decoded.email_verified) {
             setEmployeeName(decoded.given_name);
             setIsLoggedIn(true);
@@ -75,7 +88,12 @@ function Login() {
         }
     };
 
-	// Handle when a verified google account logs in
+    /**
+     * Redirects a verified Google user to the appropriate page based on their role.
+     * 
+     * @function handleVerifiedGoogleLogin
+     * @param email - The email of the logged-in user.
+     */
     const handleVerifiedGoogleLogin = (email) => {
         if (email === 'cashier.pandaexpress@gmail.com') {
             navigate('/Cashier');
@@ -111,7 +129,12 @@ function Login() {
         }
     };
 
-	// Handle when a user logs in with an email and password
+    /**
+     * Handles manual login via email and password.
+     * 
+     * @function handleManualLogin
+     * @param event - The submit event of the login form.
+     */
     const handleManualLogin = (event) => {
         event.preventDefault();
         if (!email || !password) {
@@ -138,7 +161,6 @@ function Login() {
             setIsLoggedIn(true);
             setTimeout(function(){
                 const role = user.employeerole;
-                console.log("Employee Role:", role);
                 if (role == "Cashier") {
                     navigate('/Cashier');
                 }
@@ -151,7 +173,11 @@ function Login() {
         }
     };
 
-	// Handles when the back button is pressed
+    /**
+     * Navigates the user back to the home page.
+     * 
+     * @function handleBack
+     */
     const handleBack = () => {
         navigate('/');
     };

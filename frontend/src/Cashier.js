@@ -7,6 +7,12 @@ function Cashier() {
     
     // This state is used to store the prices of all menu items from the backend
     const [menuMatch, setMenuMatch] = useState(null); 
+
+    // This state is used to store the dynamic pricing of all menu items from the backend
+    const [dynamicPricingData, setDynamicPricingData] = useState(null);
+
+    // This variable holds the price modifier
+    var dynamicPriceModifier = 0;
     
     // This state is used to keep track of the selected items in one customer's order
     const [selectedItems, setSelectedItems] = useState([]); 
@@ -35,7 +41,11 @@ function Cashier() {
     // This state to tracks the total premium charge for combos
     const [premiumCharge, setPremiumCharge] = useState(0);
 
-    // Fetch data from the backend (Code from slides)
+    /**
+     * Fetches prices, menuMatch, and dynamic pricing data from the backend.
+     * 
+     * @function useEffect
+     */
     useEffect(() => {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Cashier')
             .then(response => response.json())
@@ -52,9 +62,22 @@ function Cashier() {
                 setMenuMatch(data['menuMatch']);
             })
             .catch(error => console.error('Error fetching data:', error));
+
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/DynamicPricingTotalSales')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Dynamic Pricing: ', [data.times, data.sales, data.rankings, data.priceMods]);
+                setDynamicPricingData([data.times, data.sales, data.rankings, data.priceMods])
+            })
+            .catch(error => console.error('Error fetching Dynamic Pricing Total Sales:', error));
     }, []);
 
-    // The code will handle queries to the backend of the database (Code from Micah Diffee).
+    /**
+     * Sends a query in SQL to the database.
+     * 
+     * @function handleQuery
+     * @param {String} query - The query in SQL that is sent to the database.
+     */
     function handleQuery(query) {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
@@ -68,17 +91,41 @@ function Cashier() {
         .catch(error => console.error('Error executing query:', error));
     };
 
-    // Method that adds item to selectedItems and updates subtotal each time an item is clicked
+    // Figures out dynamic pricing modifier
+    let hour = new Date().getHours();
+    try {
+        if (8 <= hour && hour <= 20) {
+            dynamicPriceModifier = dynamicPricingData[3][hour-8];
+        }
+        else {
+            dynamicPriceModifier = 0;
+        }
+    }
+    catch (error) {
+        console.log("Dyanmic Pricing error", error);
+    }
+
+    /**
+     * Adds the item to the selectedItems state and updates the subtotal each time an item is added.
+     * 
+     * @function addItem
+     * @param {String} itemName - The product name of the item added.
+     */
     const addItem = (itemName) => {
         const item = prices.find(i => i.productname === itemName);
         if (item) {
             setSelectedItems((prevItems) => [...prevItems, item]);
-            setSubTotal((prevSubtotal) => prevSubtotal + item.cost);
+            setSubTotal((prevSubtotal) => prevSubtotal + item.cost + dynamicPriceModifier);
             setActiveMenu(null);
         }
     };
 
-    // Method that handles which menu to pop up
+    /**
+     * Updates the states needed when the menu pop up is signaled.
+     * 
+     * @function handleMenuClick
+     * @param {String} menuName - The name of the menu type.
+     */
     const handleMenuClick = (menuName) => {
         setActiveMenu(activeMenu === menuName ? null : menuName);
         if (menuName === "Combo") {
@@ -88,7 +135,12 @@ function Cashier() {
         }
     };
 
-    // Handles combo type selection (Bowl, Plate, Bigger Plate)
+    /**
+     * Helps with picking the combo type of the item selected and sets corresponding states. Options: Bowl, Plate, or Bigger Plate.
+     * 
+     * @function handleComboSelection
+     * @param {String} comboName - The combo type of the item that is being added to the menu.
+     */
     const handleComboSelection = (comboName) => {
         const comboItem = prices.find(item => item.productname === comboName);
         if (comboItem) {
@@ -98,7 +150,12 @@ function Cashier() {
         }
     };
 
-    // Handles individual entree/side selection for a combo
+    /**
+     * Handles the individual entree/side selections for adding a combo item to the order.
+     * 
+     * @function handleComboStepSelection
+     * @param {String} itemName - The product name of the selected item in the intermediary step.
+     */
     const handleComboStepSelection = (itemName) => {
         const item = prices.find(i => i.productname === itemName);
         if (item) {
@@ -122,11 +179,11 @@ function Cashier() {
                 };
     
                 setSelectedItems((prevItems) => [...prevItems, comboItem]);
-                setSubTotal((prevSubtotal) => prevSubtotal + comboTotalCost);
+                setSubTotal((prevSubtotal) => prevSubtotal + comboTotalCost + dynamicPriceModifier);
 
-                console.log("Premium Item Check:", item.productname, "PremiumNumber:", item.premium);
-                console.log("Updated Premium Charge:", premiumCharge);
-                console.log("Current Combo Steps:", comboSteps);
+                // console.log("Premium Item Check:", item.productname, "PremiumNumber:", item.premium);
+                // console.log("Updated Premium Charge:", premiumCharge);
+                // console.log("Current Combo Steps:", comboSteps);
     
                 // Reset states after completing the combo
                 setComboType(null);
@@ -140,13 +197,19 @@ function Cashier() {
         }
     };
 
+    /**
+     * Updates the states needed to delete an item in the order.
+     * 
+     * @function removeItem
+     * @param {number} index - The row number of the item that is being deleted.
+     */
     const removeItem = (index) => {
         setSelectedItems((prevItems) => {
             const updatedItems = prevItems.filter((_, i) => i !== index);
             const removedItem = prevItems[index];
             
             // Subtract only the removed item's cost
-            const newSubtotal = updatedItems.reduce((acc, item) => acc + item.cost, 0);
+            const newSubtotal = updatedItems.reduce((acc, item) => acc + item.cost + dynamicPriceModifier, 0);
     
             // Log details for debugging
             console.log("Removed Item:", removedItem.productname);
@@ -157,7 +220,11 @@ function Cashier() {
         });
     };
     
-    // Checkout button functionality, should open the popup menu
+    /**
+     * Functionality for the checkout that opens the pop up menu to do final checkout.
+     * 
+     * @function checkout
+     */
     const checkout = () => {
         if (selectedItems.length === 0) {
             alert("No items selected for checkout.");
@@ -167,6 +234,11 @@ function Cashier() {
         setPaymentPopupVisible(true); // Show the payment modal
     };
 
+    /**
+     * Updates the database with SQL queries for all of the information in the items selected list.
+     * 
+     * @function handleCompletePayment
+     */
     const handleCompletePayment = () => {
         if (!customerPaymentMethod) return;
     
@@ -236,18 +308,31 @@ function Cashier() {
         setPaymentPopupVisible(false);
     };
     
-    // Handles the selection of payment method
+    /**
+     * Sets the customer payment method for the final checkout.
+     * 
+     * @function handlePaymentSelection
+     * @param {String} method - The selected payment method for the customer
+     */
     const handlePaymentSelection = (method) => {
         setCustomerPaymentMethod(method);
     };
 
-    // Closes the payment popup
+    /**
+     * Closes the pop up screen for payment and sets the needed states to their original states.
+     * 
+     * @function closePaymentPopup
+     */
     const closePaymentPopup = () => {
         setPaymentPopupVisible(false);
         setCustomerPaymentMethod(null); // Reset the payment method
     };
 
-    // Logout functionality
+    /**
+     * Handles the logout to get back to the Login page
+     * 
+     * @function logout
+     */
     const logout = () => {
         window.location.href = "Login";
     };
@@ -367,7 +452,7 @@ function Cashier() {
                             selectedItems.map((item, index) => (
                                 <div key={index} className="order-item">
                                     <span>{item.productname}</span>
-                                    <span>${item.cost ? item.cost.toFixed(2) : '0.00'}</span>
+                                    <span>${item.cost ? (item.cost + dynamicPriceModifier).toFixed(2) : '0.00'}</span>
                                     <button className='remove-item' onClick={() => removeItem(index)}>X</button>
                                 </div>
                             ))

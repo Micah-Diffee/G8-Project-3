@@ -13,7 +13,7 @@
   margin-bottom: 20px;
 }
 
-/* Section styling within the inventory container */
+/* Section styling within the general trends container */
 .section {
   flex: 1;
   border: 1px solid #ddd;
@@ -37,14 +37,14 @@ h2 {
   margin-bottom: 20px; 
 }
 
-/* Inventory and reorder table styling */
+/* daily summary and peak days table styling */
 .dailySum-table, .peak-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0;
 }
 
-/* Cell styling for inventory and reorder tables */
+/* Cell styling for daily summary and peak days tables */
 .dailySum-table th, .dailySum-table td, .peak-table th, .peak-table td {
   border: 1px solid #ddd;
   padding: 8px;
@@ -54,7 +54,7 @@ h2 {
   text-overflow: ellipsis;
 }
 
-/* Header styling for inventory and reorder tables */
+/* Header styling for daily summary and peak days tables */
 .dailySum-table th, .peak-table th {
   background-color: #f2f2f2;
   font-weight: bold;

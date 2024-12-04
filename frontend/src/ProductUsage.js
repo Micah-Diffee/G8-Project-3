@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './ProductUsage.css';
 
+/**
+ * ProductUsage displays a product usage table chart based on inventory data from daily transactions within a specified date and time range.
+ * Allows users to input a range of dates and times to filter the data and generates a chart accordingly.
+ */
 function ProductUsage() {
 
   //State to control form visibility and form data
@@ -15,20 +19,32 @@ function ProductUsage() {
   //State to store fetched inventory data
   const [inventoryData, setInventoryData] = useState(null); 
 
-  //Handlers for opening form
+  /**
+   * Opens the inventory form to allow date and time range input.
+   * 
+   * @function handleOpenInventoryForm
+   */
   const handleOpenInventoryForm = () => {
     setIsInventoryFormOpen(true);
   };
 
-  //Handlers for closing form
+  /**
+   * Closes the inventory form and resets the form data.
+   * 
+   * @function handleCloseInventoryForm
+   */
   const handleCloseInventoryForm = () => {
     setIsInventoryFormOpen(false);
     setInventoryFormData({startDate: '', endDate: '', startTime: '', endTime: ''});
   };
 
-  //Fetch inventory usage data based on date range
+  /**
+   * Fetches product usage data from the backend API based on the specified date and time range.
+   * 
+   * @function fetchProductUsage
+   */
   const fetchProductUsage = async () => {
-    const {startDate, endDate, startTime, endTime} = inventoryFormData;
+  const {startDate, endDate, startTime, endTime} = inventoryFormData;
 
     try {
       //Construct the query parameters for start/end date/time
@@ -49,7 +65,12 @@ function ProductUsage() {
     } 
   };
 
-  //Handler for form submission by closing the form and fetching inventory data
+  /**
+   * Handles inventory form submission, validates the date and time range input, and fetches product usage data.
+   * 
+   * @function handleInventoryFormSumbit
+   * @param {React.FormEvent<HTMLFormElement>} e The form submission event.
+   */
   const handleInventoryFormSubmit = (e) => {
     e.preventDefault();
 
@@ -119,7 +140,7 @@ function ProductUsage() {
             <h1>Add Date Range</h1>
             <hr />
 
-            {/*Limits start date to range between Sep. 27 2023 - 2024*/}
+            {/* Limits start date to range between Oct. 27 2023 - 2024 */}
             <div className="form-group">
               <label htmlFor="startDate"><b>Start Date: </b></label>
               <input
@@ -133,7 +154,7 @@ function ProductUsage() {
               />
             </div>
 
-            {/*Limits start time to be in working hours (8am to 9pm)*/}
+            {/* Limits start time to be in working hours (8am to 9pm) */}
             <div className="form-group">
               <label htmlFor="startTime"><b>Start Time: </b></label>
               <input
@@ -147,7 +168,7 @@ function ProductUsage() {
               />
             </div>
 
-            {/*Limits end date to range between Sep. 27 2023 - 2024*/}
+            {/* Limits end date to range between Oct. 27 2023 - 2024 */}
             <div className="form-group">
               <label htmlFor="endDate"><b>End Date: </b></label>
               <input
@@ -161,7 +182,7 @@ function ProductUsage() {
               />
             </div>
 
-            {/*Limits end time to be in working hours (8am to 9pm)*/}
+            {/* Limits end time to be in working hours (8am to 9pm) */}
             <div className="form-group">
               <label htmlFor="endTime"><b>End Time: </b></label>
               <input

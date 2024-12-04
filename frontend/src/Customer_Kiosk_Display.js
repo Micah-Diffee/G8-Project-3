@@ -8,6 +8,9 @@ var customerNumber = 0;
 // The variable stores the current language.
 var currentLanguage = "English";
 
+// The variable will determine the price modifier.
+var dynamicPriceModifier = 0;
+
 // The map will store the inventory item quantities.
 const inventoryItemsQuantityMap = new Map([]);
 var inventoryItemsQuantityMapPopulated = false;
@@ -16,7 +19,11 @@ var inventoryItemsQuantityMapPopulated = false;
 const menuMatchMap = new Map([]);
 var menuMatchMapPopulated = false;
 
-// The function will display the customer kiosk.
+/**
+ * The function will display a functional customer kiosk for Panda Express.
+ * 
+ * @returns {*} The function returns a webpage displaying the customer kiosk for Panda Express.
+ */
 export function CustomerKioskDisplay() {
     // The state will store the prices data
     const [prices, setPrices] = useState([]);
@@ -29,6 +36,9 @@ export function CustomerKioskDisplay() {
 
     // The state will store the inventory data.
     const [inventoryData, setInventoryData] = useState([]);
+
+    // The state will get the dynamic pricing data.
+    const [dynamicPricingData, setDynamicPricingData] = useState([]);
 
     // The state to track loading status
     const [loading, setLoading] = useState(true); // Loading is true initially
@@ -51,9 +61,11 @@ export function CustomerKioskDisplay() {
           fetch('https://panda-express-pos-backend-nc89.onrender.com/api/Prices')
             .then((response) => response.json())
             .then((data) => {
-              setLoading(false);
-              setIsError(false);
-              sessionStorage.setItem('visited', 'true'); // Mark session as visited
+              if (dynamicPricingData != []) {
+                setLoading(false);
+                setIsError(false);
+                sessionStorage.setItem('visited', 'true'); // Mark session as visited
+              }
             })
             .catch((error) => {
               console.error("Error fetching data:", error);
@@ -99,6 +111,30 @@ export function CustomerKioskDisplay() {
             .then(data => setInventoryData(data.inventory))
             .catch(error => console.error('Error fetching inventory data:', error));
     }, []);
+
+    // Fetching the dynamic prices arrays.
+    useEffect(() => {
+        fetch('https://panda-express-pos-backend-nc89.onrender.com/api/DynamicPricingTotalSales')
+            .then(response => response.json())
+            .then(data => setDynamicPricingData([data.times, data.sales, data.rankings, data.priceMods]))
+            .catch(error => console.error('Error fetching Dynamic Pricing Total Sales:', error));
+    }, []);
+
+    // The code will get the current hour of the day.
+    let currentHour = new Date().getHours();
+    let currentHourStr = currentHour.toString().concat(":00:00");
+
+    // The code will set the current dynamic pricing modifier.
+    try {
+        for (let i = 0; i < dynamicPricingData[0].length; i++) {
+            if (currentHourStr == dynamicPricingData[0][i]) {
+                dynamicPriceModifier = dynamicPricingData[3][i];
+            }
+        }
+    }
+    catch (error) {
+        console.log("Error with the array not fully retrieving data: ", error);
+    }
 
     // The state will store the current kiosk page the customer is currently utilizing.
     const [currentKioskPage, setCurrentKioskPage] = useState("popular_page_kiosk");
@@ -171,9 +207,6 @@ export function CustomerKioskDisplay() {
 
     const [popularItemsPageHotOnesEnglish, setPopularItemsPageHotOnesEnglish] = useState("Hot Ones Blazing Bourbon Chicken");
     const [popularItemsPageHotOnesTranslation, setPopularItemsPageHotOnesTranslation] = useState("Hot Ones Blazing Bourbon Chicken");
-
-    const [popularItemsPagePumpkinChickenEnglish, setPopularItemsPagePumpkinChickenEnglish] = useState("Pumpkin Spice Chicken");
-    const [popularItemsPagePumpkinChickenTranslation, setPopularItemsPagePumpkinChickenTranslation] = useState("Pumpkin Spice Chicken");
 
     const [combosFirstEntreeTitleEnglish, setCombosFirstEntreeTitleEnglish] = useState("Choose Your First Entree");
     const [combosFirstEntreeTitleTranslation, setCombosFirstEntreeTitleTranslation] = useState("Choose Your First Entree");
@@ -262,6 +295,15 @@ export function CustomerKioskDisplay() {
     const [removeTableEnglish, setRemoveTableEnglish] = useState("Remove");
     const [removeTableTranslation, setRemoveTableTranslation] = useState("Remove");
 
+    const [priceModifierTitleEnglish, setPriceModifierTitleEnglish] = useState("Price Modifier:");
+    const [priceModifierTitleTranslation, setPriceModifierTitleTranslation] = useState("Price Modifier:");
+
+    const [modifierTableTitleEnglish, setModifierTableTitleEnglish] = useState("Modifier");
+    const [modifierTableTitleTranslation, setModifierTableTitleTranslation] = useState("Modifier");
+
+    const [customerBackupNameEnglish, setCustomerBackupNameEnglish] = useState("Guest");
+    const [customerBackupNameTranslation, setCustomerBackupNameTranslation] = useState("Guest");
+
     const [pricesMapTranslation, setPricesMapTranslation] = useState(new Map());
     
     if (currentLanguage === "English") {
@@ -300,8 +342,18 @@ export function CustomerKioskDisplay() {
         }
     }
 
-    // The button will go to the employee login page.
+    /**
+     * The function will create a button that will go to the employee login page.
+     * 
+     * @function EmployeeLoginButton
+     * @returns {*} The function returns a button that will go to the employee login page when the user presses it.
+     */
     function EmployeeLoginButton() {
+        /**
+         * @function handleClick
+         * 
+         * The function will switch the window to the employee login window.
+         */
         function handleClick() {
             window.location.href = "Login";
         }
@@ -311,8 +363,21 @@ export function CustomerKioskDisplay() {
         );
     }
 
-    // The button will translate the text on the screen from english to spanish and vice versa
+    /**
+     * The function will create a button that will translate the text on the customer kiosk from English to Spanish, and it will also translate the text
+     * from Spanish to English.
+     * 
+     * @function TextTranslationButton
+     * @param {String} language A specific language. The language parameter can only be "English" or "Spanish".
+     * @returns The function returns a button that will will translate the text on the customer kiosk from English to Spanish and vice versa.
+     */
     function TextTranslationButton({language}) {
+
+        /**
+         * The function will change the text on the customer kiosk
+         * 
+         * @function handleClick
+         */
         async function handleClick() {
             if (language === "Spanish") {
                 // The code will hide the spanish button.
@@ -368,9 +433,6 @@ export function CustomerKioskDisplay() {
 
                 let translatedPopularPageHotOnes = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: popularItemsPageHotOnesEnglish, language: "es"});
                 setPopularItemsPageHotOnesTranslation(translatedPopularPageHotOnes.data[0].translatedText);
-
-                let translatedPopularPumpkinChicken = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: popularItemsPagePumpkinChickenEnglish, language: "es"});
-                setPopularItemsPagePumpkinChickenTranslation(translatedPopularPumpkinChicken.data[0].translatedText);
 
                 let translatedCombosFirstEntree = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: combosFirstEntreeTitleEnglish, language: "es"});
                 setCombosFirstEntreeTitleTranslation(translatedCombosFirstEntree.data[0].translatedText);
@@ -459,6 +521,15 @@ export function CustomerKioskDisplay() {
                 let translatedRemoveTable = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: removeTableEnglish, language: "es"});
                 setRemoveTableTranslation(translatedRemoveTable.data[0].translatedText);
 
+                let translatedPriceModifierTitle = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: priceModifierTitleEnglish, language: "es"});
+                setPriceModifierTitleTranslation(translatedPriceModifierTitle.data[0].translatedText);
+
+                let translatedModifierTableTitle = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: modifierTableTitleEnglish, language: "es"});
+                setModifierTableTitleTranslation(translatedModifierTableTitle.data[0].translatedText)
+
+                let translatedCustomerBackupName = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: customerBackupNameEnglish, language: "es"});
+                setCustomerBackupNameTranslation(translatedCustomerBackupName.data[0].translatedText);
+
                 prices.map((async menuItem => {
                     let translatedTextMenuItem = await axios.post('https://panda-express-pos-backend-nc89.onrender.com/api/translate', {text: menuItem.productname, language: "es"});
                     pricesMapTranslation.set(menuItem.productname, translatedTextMenuItem.data[0].translatedText);
@@ -516,8 +587,6 @@ export function CustomerKioskDisplay() {
                 setPopularItemsPageBeijingBeefTranslation(popularItemsPageBeijingBeefEnglish);
 
                 setPopularItemsPageHotOnesTranslation(popularItemsPageHotOnesEnglish);
-
-                setPopularItemsPagePumpkinChickenTranslation(popularItemsPagePumpkinChickenEnglish);
 
                 setCombosFirstEntreeTitleTranslation(combosFirstEntreeTitleEnglish);
 
@@ -577,12 +646,18 @@ export function CustomerKioskDisplay() {
 
                 setRemoveTableTranslation(removeTableEnglish);
 
+                setPriceModifierTitleTranslation(priceModifierTitleEnglish);
+
+                setModifierTableTitleTranslation(modifierTableTitleEnglish);
+
+                setCustomerBackupNameTranslation(customerBackupNameEnglish);
+
                 let temporaryList = [];
-                    transactionItemList.map((orderedItem => {
-                        let translatedRow = [[orderedItem.at(0).at(0)], [orderedItem.at(1).at(0)], [orderedItem.at(2).at(0)], [orderedItem.at(3).at(0)]];
-            
-                        temporaryList.push(translatedRow);
-                    }))
+                transactionItemList.map((orderedItem => {
+                    let translatedRow = [[orderedItem.at(0).at(0)], [orderedItem.at(1).at(0)], [orderedItem.at(2).at(0)], [orderedItem.at(3).at(0)]];
+        
+                    temporaryList.push(translatedRow);
+                }));
                 setTransactionItemListDisplay(temporaryList);
 
                 currentLanguage = "English"
@@ -594,7 +669,13 @@ export function CustomerKioskDisplay() {
         );
     }
 
-    // The function will count the number of commas in a string.
+    /**
+     * The function will count the number of commas in a string.
+     * 
+     * @function countCommas
+     * @param {String} inputString The parameter is a string that contains commas.
+     * @returns The function returns the number of commas in the string as a Number data type.
+     */
     function countCommas(inputString) {
         let numberOfCommas = 0;
 
@@ -608,7 +689,11 @@ export function CustomerKioskDisplay() {
         return numberOfCommas;
     }
 
-    // The function will remove a combo transaction item from the customer's order if he or she did not complete it.
+    /**
+     * The function will remove a combo transaction item from the customer's order if he or she did not complete it.
+     * 
+     * @function removeIncompleteComboOrder
+     */
     function removeIncompleteComboOrder() {
         // The code will remove a combo transaction item from the customer's order if he or she did not complete it.
         if (transactionItemList.length != 0) {
@@ -641,9 +726,26 @@ export function CustomerKioskDisplay() {
         }
     }
 
-    // The button will navigate to different sections of the kiosk.
+    /**
+     * The function will navigate to a different menu section in the customer kiosk for Panda Express.
+     * 
+     * @function SideButton
+     * @param {String} buttonName The parameter is the name of the menu section that will be displayed on the button in the customer kiosk for Panda Express.
+     * @param {String} className The parameter is the name of a CSS class for the specific menu section.
+     * @returns The function returns a button that will change the menu section in the customer kiosk for Panda Express.
+     */
     function SideButton({buttonName, className}) {
+
+        /**
+         * The function will change the menu section in the customer kiosk.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
+
             // The code will hide the current kiosk page.
             const currentPage = document.querySelector("." + currentKioskPage);
             currentPage.style.display = 'none';
@@ -678,7 +780,13 @@ export function CustomerKioskDisplay() {
         );
     }
 
-    // The function helps align the buttons evenly.
+    /**
+     * The function helps align the text on a menu item button.
+     * 
+     * @function ModifyMenuItemName
+     * @param {String} menuItemNameToBeModified The parameter is the text on the button. 
+     * @returns The function returns text that is suited to the button.
+     */
     function ModifyMenuItemName({menuItemNameToBeModified}) {
         if (menuItemNameToBeModified.length <= 26) {
             return (
@@ -697,14 +805,30 @@ export function CustomerKioskDisplay() {
         }
     }
 
-    // The button will add a menu item to the customer's order.
+    /**
+     * The function will create a button for an item on the Panda Express menu, and it will add the item to a customer's order when it is pressed.
+     * 
+     * @function MenuItemButton
+     * @param {String} menuItemName The name of the item on the Panda Express menu.
+     * @param {String} menuItemNameDisplay The translated name of the item on the Panda Express menu that will be displayed on the button.
+     * @returns The function returns a button that will allow a customer to add an item to their order.
+     */
     function MenuItemButton({menuItemName, menuItemNameDisplay}) {
         // The code is going to store the image into a variable.
         var imageName = "/kiosk_pictures/" + menuItemName + ".png";
 
+        /**
+         * The function will add a menu item to a customer's order.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will update the transaction number.
             setTransactionNumber(transactionNumber + 1);
+
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
 
             //handleQuery("UPDATE inventory SET quantity = 27000 WHERE productname = 'Water Cup';");
             if ((menuItemName === "Bowl") || (menuItemName === "Plate") || (menuItemName === "Bigger Plate")) {
@@ -734,7 +858,8 @@ export function CustomerKioskDisplay() {
                         transactionItemList.push([["A La Carte"], [menuItem.productname], [menuItem.cost], [transactionNumber]]);
 
                         // Adding the price of the item to the current total
-                        let newCurrentTotal = totalCost + menuItem.cost;
+                        console.log(dynamicPriceModifier);
+                        let newCurrentTotal = totalCost + menuItem.cost + dynamicPriceModifier;
                         setTotalCost(parseFloat(newCurrentTotal.toFixed(2)));
                     }
                 })
@@ -757,7 +882,12 @@ export function CustomerKioskDisplay() {
         // The reference variable will access the image if a load image error occurs.
         const productPictureRef = useRef(null);
 
-        // The code handles an image error if an image does not exist.
+        /**
+         * The function will handle image errors if an image does not exist. If an image does not exist, the function will set the
+         * image to a standard no image available image.
+         * 
+         * @function handleImageError 
+         */
         const handleImageError = () => {
             if (productPictureRef.current) {
                 productPictureRef.current.src = "/kiosk_pictures/No_Image_Available.jpg";
@@ -766,20 +896,36 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="menu_item_button_design" onClick={handleClick}>
-                <img ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
+                <img alt={"The picture displays the " + menuItemName + " menu item."} ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
 
                 <br></br>
                 <ModifyMenuItemName menuItemNameToBeModified={menuItemNameDisplay} />
             </button>
         );
     }
-
-    // The button will add the first entree to the customer's combo order.
+    
+    /**
+     * The function will create a button that will display an entree menu item for the customer's first entree for a combo order.
+     * 
+     * @function FirstEntreeComboButton
+     * @param {String} menuItemName The name of the item on the Panda Express menu.
+     * @param {String} menuItemNameDisplay The translated name of the item on the Panda Express menu that will be displayed on the button.
+     * @returns The function returns a button that will display a specific entree, and it will be added to a customer's combo when he or she clicks it.
+     */
     function FirstEntreeComboButton({menuItemName, menuItemNameDisplay}) {
         // The code is going to store the image into a variable.
         var imageName = "/kiosk_pictures/" + menuItemName + ".png";
 
+        /**
+         * The function will add the menu item to the customer's combo order, and it will move to the next combo page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
+
             // Changing the page based on the type of combo.
             if (transactionItemList.at(transactionItemList.length - 1).at(0).at(0) === "Bowl") {
                 // Change the page to the side page
@@ -826,7 +972,12 @@ export function CustomerKioskDisplay() {
         // The reference variable will access the image if a load image error occurs.
         const productPictureRef = useRef(null);
 
-        // The code handles an image error if an image does not exist.
+        /**
+         * The function will handle image errors if an image does not exist. If an image does not exist, the function will set the
+         * image to a standard no image available image.
+         * 
+         * @function handleImageError 
+         */
         const handleImageError = () => {
             if (productPictureRef.current) {
                 productPictureRef.current.src = "/kiosk_pictures/No_Image_Available.jpg";
@@ -835,19 +986,35 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="menu_item_button_design" onClick={handleClick}>
-                <img ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
+                <img alt={"The picture displays the " + menuItemName + " menu item."} ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
                 <br></br>
                 <ModifyMenuItemName menuItemNameToBeModified={menuItemNameDisplay} />
             </button>
         );
     }
 
-    // The button will add the second entree to the customer's combo order.
+    /**
+     * The function will create a button that will display an entree menu item for the customer's second entree for a combo order.
+     * 
+     * @function SecondEntreeComboButton
+     * @param {String} menuItemName The name of the item on the Panda Express menu.
+     * @param {String} menuItemNameDisplay The translated name of the item on the Panda Express menu that will be displayed on the button.
+     * @returns The function returns a button that will display a specific entree, and it will be added to a customer's combo when he or she clicks it.
+     */
     function SecondEntreeComboButton({menuItemName, menuItemNameDisplay}) {
         // The code is going to store the image into a variable.
         var imageName = "/kiosk_pictures/" + menuItemName + ".png";
 
+        /**
+         * The function will add the menu item to the customer's combo order, and it will move to the next combo page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
+
             // Changing the page based on the type of combo.
             if (transactionItemList.at(transactionItemList.length - 1).at(0).at(0) === "Plate") {
                 // Change the page to the side page
@@ -894,7 +1061,12 @@ export function CustomerKioskDisplay() {
         // The reference variable will access the image if a load image error occurs.
         const productPictureRef = useRef(null);
 
-        // The code handles an image error if an image does not exist.
+        /**
+         * The function will handle image errors if an image does not exist. If an image does not exist, the function will set the
+         * image to a standard no image available image.
+         * 
+         * @function handleImageError 
+         */
         const handleImageError = () => {
             if (productPictureRef.current) {
                 productPictureRef.current.src = "/kiosk_pictures/No_Image_Available.jpg";
@@ -903,20 +1075,36 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="menu_item_button_design" onClick={handleClick}>
-                <img ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
+                <img alt={"The picture displays the " + menuItemName + " menu item."} ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
                 <br></br>
                 <ModifyMenuItemName menuItemNameToBeModified={menuItemNameDisplay} />
             </button>
         );
     }
 
-    // The button will add the third entree to the customer's combo order.
+    /**
+     * The function will create a button that will display an entree menu item for the customer's third entree for a combo order.
+     * 
+     * @function ThirdEntreeComboButton
+     * @param {String} menuItemName The name of the item on the Panda Express menu.
+     * @param {String} menuItemNameDisplay The translated name of the item on the Panda Express menu that will be displayed on the button.
+     * @returns The function returns a button that will display a specific entree, and it will be added to a customer's combo when he or she clicks it.
+     */
     function ThirdEntreeComboButton({menuItemName, menuItemNameDisplay}) {
         // The code is going to store the image into a variable.
         var imageName = "/kiosk_pictures/" + menuItemName + ".png";
 
+        /**
+         * The function will add the menu item to the customer's combo order, and it will move to the next combo page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // Change the page to the side page
+
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
 
             // The code will hide the current kiosk page.
             const currentPage = document.querySelector("." + currentKioskPage);
@@ -945,7 +1133,12 @@ export function CustomerKioskDisplay() {
         // The reference variable will access the image if a load image error occurs.
         const productPictureRef = useRef(null);
 
-        // The code handles an image error if an image does not exist.
+        /**
+         * The function will handle image errors if an image does not exist. If an image does not exist, the function will set the
+         * image to a standard no image available image.
+         * 
+         * @function handleImageError 
+         */
         const handleImageError = () => {
             if (productPictureRef.current) {
                 productPictureRef.current.src = "/kiosk_pictures/No_Image_Available.jpg";
@@ -954,20 +1147,36 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="menu_item_button_design" onClick={handleClick}>
-                <img ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
+                <img alt={"The picture displays the " + menuItemName + " menu item."} ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
                 <br></br>
                 <ModifyMenuItemName menuItemNameToBeModified={menuItemNameDisplay} />
             </button>
         );
     }
 
-    // The button will add the side to the customer's combo order.
+    /**
+     * The function will create a button that will display a side menu item for the customer's side for a combo order.
+     * 
+     * @function SideComboButton
+     * @param {String} menuItemName The name of the item on the Panda Express menu.
+     * @param {String} menuItemNameDisplay The translated name of the item on the Panda Express menu that will be displayed on the button.
+     * @returns The function returns a button that will display a specific side, and it will be added to a customer's combo when he or she clicks it.
+     */
     function SideComboButton({menuItemName, menuItemNameDisplay}) {
         // The code is going to store the image into a variable.
         var imageName = "/kiosk_pictures/" + menuItemName + ".png";
 
+        /**
+         * The function will add a side to the customer's combo order, and it will move to the popular items page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // Change the page to the popular items page
+
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
 
             // The code will hide the current kiosk page.
             const currentPage = document.querySelector("." + currentKioskPage);
@@ -984,14 +1193,19 @@ export function CustomerKioskDisplay() {
             transactionItemList[transactionItemList.length - 1][1][0] = transactionItemList.at(transactionItemList.length - 1).at(1).at(0).concat(", " + menuItemName);
 
             // The code adds the price of the combo to the current total.
-            let newCurrentTotal = totalCost + transactionItemList.at(transactionItemList.length - 1).at(2).at(0);
+            let newCurrentTotal = totalCost + transactionItemList.at(transactionItemList.length - 1).at(2).at(0) + dynamicPriceModifier;
             setTotalCost(parseFloat(newCurrentTotal.toFixed(2)));
         }
 
         // The reference variable will access the image if a load image error occurs.
         const productPictureRef = useRef(null);
 
-        // The code handles an image error if an image does not exist.
+        /**
+         * The function will handle image errors if an image does not exist. If an image does not exist, the function will set the
+         * image to a standard no image available image.
+         * 
+         * @function handleImageError 
+         */
         const handleImageError = () => {
             if (productPictureRef.current) {
                 productPictureRef.current.src = "/kiosk_pictures/No_Image_Available.jpg";
@@ -1000,21 +1214,33 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="menu_item_button_design" onClick={handleClick}>
-                <img ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
+                <img alt={"The picture displays the " + menuItemName + " menu item."} ref={productPictureRef} src={imageName} width="200" height="200" onError={handleImageError} />
                 <br></br>
                 <ModifyMenuItemName menuItemNameToBeModified={menuItemNameDisplay} />
             </button>
         );
     }
 
-    // The button will delete an ordered item from the customer's transaction item list.
+    /**
+     * The function will create a button that will delete an ordered item for the customer's transaction item list. 
+     * 
+     * @function DeleteItemButton
+     * @param {Number} transactionNumberInfo The transaction number for a specific ordered item on a customer's transaction item list.
+     * @returns The function returns a button that will delete an ordered item from a customer's transaction item list when he or she clicks it.
+     */
     function DeleteItemButton({transactionNumberInfo}) {
+
+        /**
+         * The function deletes an ordered item from a customer's transaction item list when he or she clicks it.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code is going to delete the transaction from the transaction item list.
             for (let i = 0; i < transactionItemList.length; i++) {
                 if (transactionItemList.at(i).at(3).at(0) === transactionNumberInfo) {
                     // Updating the current total
-                    let newCurrentCost = totalCost - transactionItemList.at(i).at(2).at(0);
+                    let newCurrentCost = totalCost - transactionItemList.at(i).at(2).at(0) - dynamicPriceModifier;
                     setTotalCost(parseFloat(newCurrentCost.toFixed(2)));
 
                     // Removing the item from the list
@@ -1055,11 +1281,26 @@ export function CustomerKioskDisplay() {
         );
     }
 
-    // The button will go to the checkout page.
+    /**
+     * The function will create a button that will go to the checkout page when the button is clicked.
+     * 
+     * @function CheckoutButton
+     * @returns The function returns a button that will go the checkout page.
+     */
     function CheckoutButton() {
+
+        /**
+         * The function will change the current page to the checkout page on the customer kiosk for Panda Express.
+         * 
+         * @function handleClick
+         */
         async function handleClick() {
             // The code will remove a combo transaction item from the customer's order if he or she did not complete it.
             removeIncompleteComboOrder();
+
+            // The code will scroll to the top of the page.
+            const rightColumnScrollable = document.querySelector(".right_column_scroll_page");
+            rightColumnScrollable.scrollTo(0,0);
 
             // The code will hide the current kiosk page.
             const currentPage = document.querySelector("." + currentKioskPage);
@@ -1122,8 +1363,19 @@ export function CustomerKioskDisplay() {
         );
     }
 
-    // The button will go to the payment method page.
+    /**
+     * The function will create a button that will go to the payment method page when the customer clicks the button.
+     * 
+     * @function ProceedToPaymentMethodButton
+     * @returns The function returns a button that will go to the payment method page when the customer clicks the button.
+     */
     function ProceedToPaymentMethodButton() {
+
+        /**
+         * The function will go to the payment method page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will hide the main kiosk display.
             const currentPage = document.querySelector(".row_property");
@@ -1139,11 +1391,19 @@ export function CustomerKioskDisplay() {
         )
     }
 
-    // The button will select a payment method for the user.
+    /**
+     * The function will create a button for a specific payment method.
+     * 
+     * @function PaymentMethodButton
+     * @param {String} paymentMethod The parameter stores the type of payment method in English.
+     * @param {String} paymentMethodTranslation The parameter stores the type of payment method in the translated language.
+     * @returns The function returns a button that will allow the user to select their preferred payment method.
+     */
     function PaymentMethodButton({paymentMethod, paymentMethodTranslation}) {
         // The name of the image depending on the payment method.
         var paymentMethodImageName;
 
+        // The code will match the payment method with its corresponding image.
         if (paymentMethod == "Credit") {
             paymentMethodImageName = "/kiosk_pictures/Credit_Card.jpg";
         }
@@ -1157,6 +1417,11 @@ export function CustomerKioskDisplay() {
             paymentMethodImageName = "/kiosk_pictures/Dining_Dollars.jpeg";
         }
 
+        /**
+         * The function will store the user's preferred payment method in the system, and it will display the customer information page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will store the customer's chose payment method.
             setCustomerPaymentMethod(paymentMethod);
@@ -1175,7 +1440,7 @@ export function CustomerKioskDisplay() {
 
         return (
             <button class="payment_method_button_design" onClick={handleClick}>
-                <img src={paymentMethodImageName} width="300" height="225" />
+                <img alt={"The picture displays the payment method of " + paymentMethod} src={paymentMethodImageName} width="40%" height="70%" />
                 <br></br>
                 {paymentMethodTranslation}
             </button>
@@ -1187,10 +1452,27 @@ export function CustomerKioskDisplay() {
         setCustomerName(event.target.value);
     }
 
-    // The button will change the page to the checkout summary page.
+    /**
+     * The function will create the final checkout button, which will change the customer information page to the checkout summary page
+     * when the button is clicked.
+     * 
+     * @function FinalCheckoutButton
+     * @returns The function will return a button that will go to the checkout summary page when it is clicked.
+     */
     function FinalCheckoutButton() {
+
+        /**
+         * The function will switch from the customer information page to the checkout summary page.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will change the customer information page to the checkout summary page.
+
+            // The code will check if the customer's name is blank.
+            if (customerName == "") {
+                setCustomerName(customerBackupNameTranslation); 
+            }
 
             // The code will hide the customer information page.
             const customerInfoPage = document.querySelector(".display_customer_information_page");
@@ -1207,7 +1489,25 @@ export function CustomerKioskDisplay() {
     }
 
     // The button will either submit the customer's order or cancel the customer's order.
+
+    /**
+     * The function will create a button that either submit or cancel the customer's order.
+     * 
+     * @function SubmitOrder
+     * @param {String} userDecision The parameter will determine the type of submit for the button. The parameter can only be "Cancel Order" or
+     *                              "Submit Order" for it to work properly.
+     * @param {String} userDecisionDisplay The parameter will be displayed on the button in the customer's preferred language.
+     *                                     The userDecision and userDecisionDisplay parameters should have the same text, but 
+     *                                     the userDecisionDisplay parameter might be in a different language.
+     * @returns The function will return a button that will either submit or cancel the customer's order.
+     */
     function SubmitOrder({userDecision, userDecisionDisplay}) {
+        
+        /**
+         * The function will either submit or cancel the customer's order.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will cancel the customer's order and return to the popular page.
             if (userDecision === "Cancel Order") {
@@ -1348,8 +1648,21 @@ export function CustomerKioskDisplay() {
         )
     }
 
-    // The button will return the user to the home page and reset the order information.
+    /**
+     * The function will create a button that will take the customer back to the popular menu items page, and it will reset the order
+     * to be an empty order.
+     * 
+     * @function ReturnToHomeButton
+     * @returns The function returns a button that will take the customer back to the popular menu items page and reset the order to be
+     *          an empty order when he or she clicks the button.
+     */
     function ReturnToHomeButton() {
+
+        /**
+         * The function will take the customer back to the popular menu items page, and it will reset the order to be an empty order.
+         * 
+         * @function handleClick
+         */
         function handleClick() {
             // The code will zero out all of the customer's order information.
             setCurrentKioskPage("popular_page_kiosk");
@@ -1390,9 +1703,14 @@ export function CustomerKioskDisplay() {
         return (
             <button class="return_to_home_button_design" onClick={handleClick}>{returnToHomePageTitleTranslation}</button>
         )
-    } 
+    }
 
-    // The code will handle queries to the backend of the database (Thanks to Micah for the following code).
+    /**
+     * The function will send an SQL query to the database.
+     * 
+     * @function handleQuery
+     * @param {String} query The parameter is an SQL query that will be sent to the database. 
+     */
     function handleQuery(query) {
         fetch('https://panda-express-pos-backend-nc89.onrender.com/executeQuery', {
             method: 'POST',
@@ -1406,7 +1724,12 @@ export function CustomerKioskDisplay() {
         .catch(error => console.error('Error executing query:', error));
     }
 
-    // Loading screen component
+    /**
+     * The function will display the loading screen.
+     * 
+     * @function LoadingScreen
+     * @returns The function returns the loading screen HTML code.
+     */
     const LoadingScreen = () => (
         <div className="loading-screen">
             <div className="spinner"></div>
@@ -1414,7 +1737,12 @@ export function CustomerKioskDisplay() {
         </div>
     );
 
-    // Error screen component
+    /**
+     * The function will display the error screen.
+     * 
+     * @function ErrorScreen
+     * @returns The function returns the error screen HTML code.
+     */
     const ErrorScreen = () => (
         <div className="error-message">
             <div className="error-icon">⚠️</div>
@@ -1422,7 +1750,7 @@ export function CustomerKioskDisplay() {
         </div>
     );
 
-    // Displaying the webpage.
+    // Displaying the Panda Express customer kisok webpage.
     return (
         <div class="customer-kiosk-display">
         {/* Show loading screen, error screen, or main content */}
@@ -1435,7 +1763,7 @@ export function CustomerKioskDisplay() {
             {/* The heading of the customer kiosk. */}
             <div class="row_property_header">
                 <div class="page_header_left">
-                    <img src='/kiosk_pictures/panda_express_logo.png' width="160" height="160" />
+                    <img alt={"The picture displays the Panda Express logo."} src='/kiosk_pictures/panda_express_logo.png' width="55%" height="90%" />
                 </div>
                 <div class="page_header_right">
                     <p>{kisokHeadingTextTranslation}</p>
@@ -1445,15 +1773,17 @@ export function CustomerKioskDisplay() {
             <div class="row_property">
                 {/* The left section of the customer kiosk that contains the side buttons to switch between sections. */}
                 <div class="left_column">
-                    <div><EmployeeLoginButton /></div>
-                    <div class="spanish_button_kiosk"><TextTranslationButton language={"Spanish"} /></div>
-                    <div class="english_button_kiosk"><TextTranslationButton language={"English"} /></div>
-                    <div><SideButton buttonName={popularButtonTextTranslation} className="popular_page_kiosk" /></div>
-                    <div><SideButton buttonName={combosButtonTextTranslation} className="combos_page_kiosk" /></div>
-                    <div><SideButton buttonName={entreesButtonTextTranslation} className="entrees_page_kiosk" /></div>
-                    <div><SideButton buttonName={sidesButtonTextTranslation} className="sides_page_kiosk" /></div>
-                    <div><SideButton buttonName={appetizersButtonTextTranslation} className="appetizers_page_kiosk" /></div>
-                    <div><SideButton buttonName={drinksButtonTextTranslation} className="drinks_page_kiosk" /></div>
+                    <div class="left_column_scroll_page">
+                        <div><EmployeeLoginButton /></div>
+                        <div class="spanish_button_kiosk"><TextTranslationButton language={"Spanish"} /></div>
+                        <div class="english_button_kiosk"><TextTranslationButton language={"English"} /></div>
+                        <div><SideButton buttonName={popularButtonTextTranslation} className="popular_page_kiosk" /></div>
+                        <div><SideButton buttonName={combosButtonTextTranslation} className="combos_page_kiosk" /></div>
+                        <div><SideButton buttonName={entreesButtonTextTranslation} className="entrees_page_kiosk" /></div>
+                        <div><SideButton buttonName={sidesButtonTextTranslation} className="sides_page_kiosk" /></div>
+                        <div><SideButton buttonName={appetizersButtonTextTranslation} className="appetizers_page_kiosk" /></div>
+                        <div><SideButton buttonName={drinksButtonTextTranslation} className="drinks_page_kiosk" /></div>
+                    </div>
                 </div>
 
                 {/* The right section of the customer kisok that contains the different menu item sections. */}
@@ -1480,7 +1810,6 @@ export function CustomerKioskDisplay() {
                                 {/* The buttons in the seasonal items section. */}
                                 <div>
                                     <MenuItemButton menuItemName="Hot Ones Blazing Bourbon Chicken" menuItemNameDisplay={popularItemsPageHotOnesTranslation} />
-                                    <MenuItemButton menuItemName="Pumpkin Spice Chicken" menuItemNameDisplay={popularItemsPagePumpkinChickenTranslation} />
                                 </div>
                             </div>
                         </div>
@@ -1655,6 +1984,7 @@ export function CustomerKioskDisplay() {
                                                 <th>{orderTypeTableTranslation}</th>
                                                 <th>{menuItemsTableTranslation}</th>
                                                 <th>{costTableTranslation}</th>
+                                                <th>{modifierTableTitleTranslation}</th>
                                                 <th>{removeTableTranslation}</th>
                                             </tr>
                                         </thead>
@@ -1663,7 +1993,8 @@ export function CustomerKioskDisplay() {
                                                 <tr>
                                                     <td>{orderedItem.at(0).at(0)}</td>
                                                     <td>{orderedItem.at(1).at(0)}</td>
-                                                    <td>{orderedItem.at(2).at(0)} $</td>
+                                                    <td>{orderedItem.at(2).at(0).toFixed(2)} $</td>
+                                                    <td>{dynamicPriceModifier.toFixed(2)} $</td>
                                                     <td><DeleteItemButton transactionNumberInfo={orderedItem.at(3).at(0)} /></td>
                                                 </tr>
                                             )))}
@@ -1684,7 +2015,12 @@ export function CustomerKioskDisplay() {
                     <div class="row_property_secondary">
                         {/* The current total box at the bottom left of the kiosk page. */}
                         <div class="left_column_secondary">
-                            <div>{currentTotalTitleTranslation} {totalCost} $</div>
+                            <div>{currentTotalTitleTranslation} {totalCost.toFixed(2)} $</div>
+                        </div>
+
+                        {/* The price modifier box at the bottom middle of the kiosk page. */}
+                        <div class="middle_column_secondary">
+                            <div>{priceModifierTitleTranslation} {dynamicPriceModifier.toFixed(2)} $</div>
                         </div>
 
                         {/* The checkout button at the bottom right of the kiosk page. */}
@@ -1715,7 +2051,7 @@ export function CustomerKioskDisplay() {
             <div class="display_customer_information_page">
                 <div class="customer_information_page">
                     <div class="customer_information_title">{customerInformationTitleTranslation}</div>
-                    <p class="customer_information_label">{orderNameTitleTranslation} <input type="text" onChange={changeCustomerName} value={customerName} /></p>
+                    <p class="customer_information_label">{orderNameTitleTranslation} <input type="text" onChange={changeCustomerName} value={customerName} placeholder={customerBackupNameTranslation} /></p>
                     <FinalCheckoutButton />
                 </div>
             </div>
@@ -1734,6 +2070,7 @@ export function CustomerKioskDisplay() {
                                     <th>{orderTypeTableTranslation}</th>
                                     <th>{menuItemsTableTranslation}</th>
                                     <th>{costTableTranslation}</th>
+                                    <th>{modifierTableTitleTranslation}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1741,7 +2078,8 @@ export function CustomerKioskDisplay() {
                                     <tr>
                                         <td>{orderedItem.at(0).at(0)}</td>
                                         <td>{orderedItem.at(1).at(0)}</td>
-                                        <td>{orderedItem.at(2).at(0)} $</td>
+                                        <td>{orderedItem.at(2).at(0).toFixed(2)} $</td>
+                                        <td>{dynamicPriceModifier.toFixed(2)} $</td>
                                     </tr>
                                 )))}
                             </tbody>

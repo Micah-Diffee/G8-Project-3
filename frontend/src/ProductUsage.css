@@ -1,4 +1,4 @@
-/* General Container for the General Trends Page */
+/* product usage section styling */
 .product-usage-container {
     background-color: white;
     padding: 20px;
@@ -10,7 +10,7 @@
     margin: 0 auto;
   }
   
-/* Title styling for each section */
+/* Title styling for product usage section */
 .section-title {
   font-size: 24px;
   font-weight: bold;
@@ -25,7 +25,7 @@
   align-items: center;
 }
 
-/* Table container styling */
+/* Table container styling for the product usage table */
 .table-container {
   width: 100%;
   max-height: 60vh;
@@ -33,19 +33,21 @@
   overflow-x: auto;
   margin-bottom: 20px;
 }
-  
+ 
+/* product usage table styling */
 .product-usage-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0;
 }
 
-
+/* Cell styling for the product usage table */
 .product-usage-table thead {
   top: 0;
   border: 1px solid #ddd;
 }
 
+/* Header styling for the product usage table */
 .product-usage-table th, .product-usage-table td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -81,11 +83,12 @@
   font-weight: bold;
 }
 
+/* Styling for hovering over generate chart button */
 .generate-chart-button:hover {
   background-color: #b3cde0;
 }
   
-/* The popup form - hidden by default */
+/* The popup form is hidden by default */
 .form-popup {
   display: block;
   position: fixed;
@@ -136,10 +139,12 @@
   opacity: 0.8;
 }
 
+/* Styling for hovering over button in form */
 .form-group .btn:hover {
   opacity: 1;
 }
 
+/* Styling for closing form button */
 .form-group .cancel {
   background-color: red;
 }

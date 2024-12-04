@@ -47,6 +47,8 @@
 .customer-kiosk-display .payment_method_page {
     text-align: center;
     background-color: lightgray;
+    height: 80vh;
+    overflow: hidden;
 }
 
 /* The css class will center the text and buttons on the customer information page. */
@@ -143,6 +145,14 @@
     background-color: lightcoral;
     border: 2px solid black;
     box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* The css class will make the left column scrollable. */
+.customer-kiosk-display .left_column_scroll_page {
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 /* The css class will design the right column. */
@@ -176,20 +186,33 @@
 /* The css class will design the secondary left column for the current total. */
 .customer-kiosk-display .left_column_secondary {
     float: right;
-    width: 50%;
+    width: 35%;
     background-color: rgb(230, 227, 227);
     border: 3px solid black;
     box-sizing: border-box;
     align-content: center;
     font-family: Georgia, serif;
-    font-size: 38px;
+    font-size: 30px;
+    padding-left: 20px;
+}
+
+/* The css class will design the secondary middle column for the dynamic price modifier. */
+.customer-kiosk-display .middle_column_secondary {
+    float: right;
+    width: 35%;
+    background-color: rgb(230, 227, 227);
+    border: 3px solid black;
+    box-sizing: border-box;
+    align-content: center;
+    font-family: Georgia, serif;
+    font-size: 30px;
     padding-left: 20px;
 }
 
 /* The css class will design the secondary right column for the checkout button. */
 .customer-kiosk-display .right_column_secondary {
     float: right;
-    width: 50%;
+    width: 30%;
     background-color: rgb(230, 227, 227);
     border: 2px solid black;
     box-sizing: border-box;
@@ -232,6 +255,7 @@
     font-size: 30px;
     color: white;
     margin-top: 5%;
+    margin-bottom: 2.5%;
     margin-left: 5%;
     border-radius: 10px;
     border-color: #282c34;
@@ -253,7 +277,8 @@
     font-family: Georgia, serif;
     font-size: 30px;
     color: white;
-    margin-top: 5%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
     margin-left: 5%;
     border-radius: 10px;
     border-color: #282c34;
@@ -274,7 +299,8 @@
     padding: 10px;
     font-family: Georgia, serif;
     font-size: 30px;
-    margin-top: 5%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
     margin-left: 5%;
     border-radius: 10px;
     background-color: lightgray;
@@ -313,7 +339,7 @@
     height: 80%;
     padding: 10px;
     font-family: Georgia, serif;
-    font-size: 30px;
+    font-size: 25px;
     border-radius: 10px;
     background-color: lightgray;
     cursor: pointer;
@@ -328,12 +354,12 @@
 /* The css class will design the payment method buttons. */
 .customer-kiosk-display .payment_method_button_design {
     width: 48.5%;
-    height: 20%;
+    height: 39%;
     margin-left: 0.5%;
     margin-right: 0.5%;
     margin-bottom: 1%;
     border-radius: 10px;
-    font-size: 200%;
+    font-size: 35px;
     font-family: Georgia, serif;
     background-color: rgb(234, 172, 172);
     cursor: pointer;
@@ -363,7 +389,7 @@
     height: 10%;
     padding: 10px;
     font-family: Georgia, serif;
-    font-size: 25px;
+    font-size: 20px;
     margin-bottom: 25px;
     margin-right: 25px;
     border-radius: 10px;

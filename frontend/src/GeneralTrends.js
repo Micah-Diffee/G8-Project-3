@@ -1,31 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import './GeneralTrends.css';
 
+/**
+ * GeneralTrends page that displays general trends, including daily summaries, peak day data, and summary statistics.
+ */
 function GeneralTrends() {
   const [dailySum, setDailySum] = useState([]);
   const [peakDays, setPeakDays] = useState([]);
-  const [stats, setStats] = useState([]);
+  const [stats, setStats] = useState({});
 
+  //Fetch data from backend API
   useEffect(() => {
     fetch('https://panda-express-pos-backend-nc89.onrender.com/api/GeneralTrends')
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched data:', data);
         setDailySum(data.dailySum || []);
-        setPeakDays(data.peakDays || []); 
+        setPeakDays(data.peakDays || []);
         setStats(data.stats || {});
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  /**
+   * Formats a date string to 'YYYY-MM-DD' format.
+   *
+   * @function formatDate
+   * @param {string} dateString - The date string to format.
+   * @returns {string} The formatted date string, or 'Invalid Date' if input is invalid.
+   */
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     if (isNaN(date)) {
-      // Handle invalid date format
       console.warn('Invalid date value:', dateString);
-      return 'Invalid Date'; // Return a default value or a custom message
+      return 'Invalid Date';
     }
-    return date.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD' part
+    return date.toISOString().split('T')[0];
+  };
+
+  /**
+   * Formats a number to two decimal places.
+   *
+   * @function formatDecimal
+   * @param {number|string} value - The number to format.
+   * @returns {string} The formatted number to two decimal places, or '0.00' if input is invalid.
+   */
+  const formatDecimal = (value) => {
+    return value ? parseFloat(value).toFixed(2) : '0.00';
   };
 
   return (
@@ -35,7 +55,7 @@ function GeneralTrends() {
       <div className="general-container">
         <div className="section">
           {/* Daily Summary Table */}
-          <h2>Daily Summary</h2> 
+          <h2>Daily Summary</h2>
           <div className="table-container">
             <table className="dailySum-table">
               <thead>
@@ -43,7 +63,7 @@ function GeneralTrends() {
                   <th>Date</th>
                   <th>Total Sales</th>
                   <th>Total Customers</th>
-                  <th>Average Time Between Orders</th>
+                  <th>Average Time Between Orders (Minutes)</th>
                 </tr>
               </thead>
               <tbody>
@@ -53,9 +73,9 @@ function GeneralTrends() {
                   dailySum.map((summary) => (
                     <tr key={summary.date}>
                       <td>{formatDate(summary.date)}</td>
-                      <td>{summary.total_sales}</td>
+                      <td>{formatDecimal(summary.total_sales)}</td>
                       <td>{summary.total_customers}</td>
-                      <td>{summary.average_time_between_orders_minutes}</td>
+                      <td>{formatDecimal(summary.average_time_between_orders_minutes)}</td>
                     </tr>
                   ))
                 )}
@@ -64,7 +84,7 @@ function GeneralTrends() {
           </div>
         </div>
 
-        {/* Peak Table */}
+        {/* Peak Days Summary */}
         <div className="section">
           <h2>Peak Days Summary</h2>
           <div className="table-container">
@@ -74,7 +94,7 @@ function GeneralTrends() {
                   <th>Date</th>
                   <th>Total Sales</th>
                   <th>Total Customers</th>
-                  <th>Average Time Between Orders</th>
+                  <th>Average Time Between Orders (Minutes)</th>
                 </tr>
               </thead>
               <tbody>
@@ -84,9 +104,9 @@ function GeneralTrends() {
                   peakDays.map((peakDay) => (
                     <tr key={peakDay.date}>
                       <td>{formatDate(peakDay.date)}</td>
-                      <td>{peakDay.total_sales}</td>
+                      <td>{formatDecimal(peakDay.total_sales)}</td>
                       <td>{peakDay.total_customers}</td>
-                      <td>{peakDay.average_time_between_orders_minutes}</td>
+                      <td>{formatDecimal(peakDay.average_time_between_orders_minutes)}</td>
                     </tr>
                   ))
                 )}

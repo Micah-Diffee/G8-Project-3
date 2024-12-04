@@ -13,7 +13,10 @@ import Cashier from './Cashier';
 import { CustomerKioskDisplay } from './Customer_Kiosk_Display';
 import './Manager.css';
 
-
+/**
+ * ManagerContent displays the main content for the manager, including navigation and navigation
+ * of different pages such as Inventory, Employee Info, Order History, Trends, and Reports.
+ */
 function ManagerContent() {
 
   //Finds location to decide what needs to show on what page
@@ -22,7 +25,11 @@ function ManagerContent() {
   // State to track whether the additional bar with buttons should be shown
   const [showTrendsBar, setShowTrendsBar] = useState(false);
 
-  // Toggle the visibility of the trends bar
+  /**
+   * Toggles the visibility of the trends bar.
+   * 
+   * @function handleTrendsClick
+   */
   const handleTrendsClick = () => {
     if (!showTrendsBar) {
       setShowTrendsBar((prev) => !prev);
@@ -74,6 +81,9 @@ function ManagerContent() {
   );
 }
 
+/**
+ * Manager wraps the ManagerContent component within a Router to handle navigation.
+ */
 export default function Manager() {
   return (
     <Router>
